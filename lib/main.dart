@@ -21,6 +21,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   var directSms = DirectSms();
   List numbers = [];
+  List sendNumbers = [];
   String label = "No file selected";
   int counter = 0;
 
@@ -42,11 +43,19 @@ class _MyAppState extends State<MyApp> {
     var messageController = TextEditingController();
     return MaterialApp(
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              sendNumbers = [];
+            });
+          },
+          child: const Text('clear'),
+        ),
         appBar: AppBar(
           title: const Text('Message sender app'),
         ),
         body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
+          padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -110,82 +119,90 @@ class _MyAppState extends State<MyApp> {
               ),
               const SizedBox(height: 16),
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: const Size(40, 40),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
+                style: ElevatedButton.styleFrom(
+                  minimumSize: const Size(40, 40),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(8),
                   ),
-                  onPressed: () async {
-                    if (numbers.isNotEmpty) {
-                      for (var number in numbers) {
-                        try {
-                          _sendSms(message: messageController.text, number: number["phone"].trim());
-                          // wait for 1 second
-                          // await Future.delayed(const Duration(seconds: 2));
-                          setState(() {
-                            counter++;
-                          });
-                        } catch (e) {
-                          await showDialog(
-                              context: context,
-                              builder: (context) {
-                                return AlertDialog(
-                                  title: const Text("Error"),
-                                  content: Text("$e"),
-                                  actions: [
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("OK"))
-                                  ],
-                                );
-                              });
-                        }
+                ),
+                onPressed: () async {
+                  if (numbers.isNotEmpty) {
+                    for (var number in numbers) {
+                      try {
+                        _sendSms(message: messageController.text, number: number["phone"].trim());
+                        setState(() {
+                          sendNumbers.add(number);
+                          counter++;
+                        });
+                      } catch (e) {
+                        await showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Error"),
+                                content: Text("$e"),
+                                actions: [
+                                  TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: const Text("OK"))
+                                ],
+                              );
+                            });
                       }
-                      // ignore: use_build_context_synchronously
-                      await showDialog(
+                    }
+                    // ignore: use_build_context_synchronously
+                    await showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Message"),
+                          content: Text("Message sended to $counter users"),
+                          actions: [
+                            TextButton(
+                                onPressed: () {
+                                  setState(() {
+                                    counter = 0;
+                                  });
+                                  Navigator.pop(context);
+                                },
+                                child: const Text("OK"))
+                          ],
+                        );
+                      },
+                    );
+                  } else {
+                    await showDialog(
                         context: context,
                         builder: (context) {
                           return AlertDialog(
-                            title: const Text("Message"),
-                            content: Text("Message sended $counter users"),
+                            title: const Text("Error"),
+                            content: const Text("Please select a file"),
                             actions: [
                               TextButton(
                                   onPressed: () {
-                                    setState(() {
-                                      counter = 0;
-                                    });
                                     Navigator.pop(context);
                                   },
                                   child: const Text("OK"))
                             ],
                           );
-                        },
-                      );
-                      // setState(() {
-                      //   counter = 0;
-                      // });
-                    } else {
-                      await showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              title: const Text("Error"),
-                              content: const Text("Please select a file"),
-                              actions: [
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.pop(context);
-                                    },
-                                    child: const Text("OK"))
-                              ],
-                            );
-                          });
+                        });
+                  }
+                },
+                child: Text(counter == 0 ? "Send" : "Sended $counter"),
+              ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: sendNumbers.length,
+                  itemBuilder: (context, index) {
+                    if (sendNumbers.isNotEmpty) {
+                      return Text("${('${index + 1}:').padRight(4)} ${sendNumbers[index % sendNumbers.length]['name']}");
                     }
+                    return null;
                   },
-                  child: Text(counter == 0 ? "Send" : "Sended $counter"))
+                ),
+              )
             ],
           ),
         ),
