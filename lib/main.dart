@@ -33,7 +33,6 @@ class _MyAppState extends State<MyApp> {
     final permission = Permission.sms.request();
     if (await permission.isGranted) {
       directSms.sendSms(message: message, phone: number);
-      print('Message sent');
     }
   }
 
@@ -60,9 +59,9 @@ class _MyAppState extends State<MyApp> {
                       style: ElevatedButton.styleFrom(
                         // backgroundColor: Colors.white,
                         // foregroundColor: const Color.fromARGB(255, 146, 146, 146),
-                        minimumSize: Size(40, 60),
+                        minimumSize: const Size(40, 60),
                         shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Color.fromARGB(255, 150, 149, 149), width: 1),
+                          side: const BorderSide(color: Color.fromARGB(255, 150, 149, 149), width: 1),
                           borderRadius: BorderRadius.circular(8),
                         ),
                       ),
@@ -73,9 +72,6 @@ class _MyAppState extends State<MyApp> {
                         if (result != null) {
                           File file = File(result.files.single.path!);
                           var map = jsonDecode(file.readAsStringSync());
-
-                          print(map);
-                          print(map.runtimeType);
                           // change the label
                           setState(() {
                             numbers = map;
@@ -126,19 +122,53 @@ class _MyAppState extends State<MyApp> {
                         try {
                           _sendSms(message: messageController.text, number: number["phone"].trim());
                           // wait for 1 second
-                          await Future.delayed(const Duration(seconds: 1));
-                          // setState(() {
-                          //   counter++;
-                          // });
+                          // await Future.delayed(const Duration(seconds: 2));
+                          setState(() {
+                            counter++;
+                          });
                         } catch (e) {
-                          print(e);
+                          await showDialog(
+                              context: context,
+                              builder: (context) {
+                                return AlertDialog(
+                                  title: const Text("Error"),
+                                  content: Text("$e"),
+                                  actions: [
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: const Text("OK"))
+                                  ],
+                                );
+                              });
                         }
                       }
+                      // ignore: use_build_context_synchronously
+                      await showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            title: const Text("Message"),
+                            content: Text("Message sended $counter users"),
+                            actions: [
+                              TextButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      counter = 0;
+                                    });
+                                    Navigator.pop(context);
+                                  },
+                                  child: const Text("OK"))
+                            ],
+                          );
+                        },
+                      );
                       // setState(() {
                       //   counter = 0;
                       // });
                     } else {
-                      showDialog(
+                      await showDialog(
                           context: context,
                           builder: (context) {
                             return AlertDialog(
@@ -155,7 +185,7 @@ class _MyAppState extends State<MyApp> {
                           });
                     }
                   },
-                  child: Text(counter == 0 ? "Send" : "Send $counter"))
+                  child: Text(counter == 0 ? "Send" : "Sended $counter"))
             ],
           ),
         ),
