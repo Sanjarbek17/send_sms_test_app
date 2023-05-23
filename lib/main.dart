@@ -30,10 +30,10 @@ class _MyAppState extends State<MyApp> {
     super.initState();
   }
 
-  _sendSms({required String number, required String message}) async {
+  Future<void> _sendSms({required String number, required String message}) async {
     final permission = Permission.sms.request();
     if (await permission.isGranted) {
-      directSms.sendSms(message: message, phone: number);
+      await directSms.sendSms(message: message, phone: number);
     }
   }
 
@@ -129,7 +129,8 @@ class _MyAppState extends State<MyApp> {
                   if (numbers.isNotEmpty) {
                     for (var number in numbers) {
                       try {
-                        _sendSms(message: messageController.text, number: number["phone"].trim());
+                        await _sendSms(message: messageController.text, number: number["phone"].trim());
+                        await Future.delayed(const Duration(seconds: 5));
                         setState(() {
                           sendNumbers.add(number);
                           counter++;
@@ -150,6 +151,7 @@ class _MyAppState extends State<MyApp> {
                                 ],
                               );
                             });
+                        break;
                       }
                     }
                     // ignore: use_build_context_synchronously
