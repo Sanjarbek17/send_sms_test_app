@@ -66,9 +66,16 @@ class FilePickerWidget extends StatelessWidget {
               width: double.infinity,
               child: ElevatedButton.icon(
                 onPressed: () async {
-                  List<Contact>? contacts = await FileService.pickContactsFile();
-                  if (contacts != null) {
-                    onFilePicked(contacts, "File selected successfully");
+                  // Show dialog to get header names
+                  final headerNames = await _showHeaderDialog(context);
+                  if (headerNames != null) {
+                    List<Contact>? contacts = await FileService.pickContactsFile(
+                      nameHeader: headerNames['nameHeader']!,
+                      phoneHeader: headerNames['phoneHeader']!,
+                    );
+                    if (contacts != null) {
+                      onFilePicked(contacts, "File selected successfully");
+                    }
                   }
                 },
                 icon: const Icon(Icons.folder_open),
@@ -84,6 +91,76 @@ class FilePickerWidget extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+
+  Future<Map<String, String>?> _showHeaderDialog(BuildContext context) async {
+    final nameController = TextEditingController(text: 'name');
+    final phoneController = TextEditingController(text: 'phone');
+
+    return showDialog<Map<String, String>>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Configure Column Headers'),
+          content: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Text(
+                  'Specify the column header names in your file:',
+                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: nameController,
+                  decoration: const InputDecoration(
+                    labelText: 'Name Column Header',
+                    hintText: 'e.g., name, full_name, customer',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.person),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: phoneController,
+                  decoration: const InputDecoration(
+                    labelText: 'Phone Column Header',
+                    hintText: 'e.g., phone, number, mobile',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.phone),
+                  ),
+                ),
+                const SizedBox(height: 12),
+                const Text(
+                  'Note: The search is case-insensitive and matches partial text.',
+                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                ),
+              ],
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(),
+              child: const Text('Cancel'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                final nameHeader = nameController.text.trim();
+                final phoneHeader = phoneController.text.trim();
+
+                if (nameHeader.isNotEmpty && phoneHeader.isNotEmpty) {
+                  Navigator.of(context).pop({
+                    'nameHeader': nameHeader,
+                    'phoneHeader': phoneHeader,
+                  });
+                }
+              },
+              child: const Text('Continue'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

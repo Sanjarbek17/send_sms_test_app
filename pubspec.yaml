@@ -39,6 +39,8 @@ dependencies:
   flutter_launcher_icons: ^0.14.4
   sms_sender: ^1.0.5
   file_picker: ^10.2.1
+  csv: ^6.0.0
+  excel: ^4.0.3
   # background_sms: ^0.0.4
 dev_dependencies:
   flutter_test:
