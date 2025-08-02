@@ -181,113 +181,115 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 16, left: 16, right: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            // SMS availability warning
-            if (!isSmsAvailable)
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(12),
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: Colors.orange.shade100,
-                  border: Border.all(color: Colors.orange),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  children: [
-                    Icon(Icons.warning, color: Colors.orange.shade700),
-                    const SizedBox(width: 8),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'SMS Not Available',
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.orange.shade700,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // SMS availability warning
+              if (!isSmsAvailable)
+                Container(
+                  width: double.infinity,
+                  padding: const EdgeInsets.all(12),
+                  margin: const EdgeInsets.only(bottom: 16),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade100,
+                    border: Border.all(color: Colors.orange),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.warning, color: Colors.orange.shade700),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              'SMS Not Available',
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Colors.orange.shade700,
+                              ),
                             ),
-                          ),
-                          const Text(
-                            'Please check: 1) SIM card is inserted, 2) SMS permissions are granted, 3) Device supports SMS',
-                            style: TextStyle(fontSize: 12),
-                          ),
-                        ],
+                            const Text(
+                              'Please check: 1) SIM card is inserted, 2) SMS permissions are granted, 3) Device supports SMS',
+                              style: TextStyle(fontSize: 12),
+                            ),
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
+                ),
+              // File picker section
+              FilePickerWidget(
+                label: fileLabel,
+                onFilePicked: _onFilePicked,
+              ),
+              const SizedBox(height: 16),
+
+              // Test phone number section
+              Card(
+                elevation: 2,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const Text(
+                        'Test Single Number',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      PhoneInputWidget(
+                        phoneController: phoneController,
+                        label: "Test Phone Number",
+                      ),
+                      const SizedBox(height: 8),
+                      CustomElevatedButton(
+                        text: "Send Test Message",
+                        onPressed: _sendTestMessage,
+                        minWidth: double.infinity,
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            // File picker section
-            FilePickerWidget(
-              label: fileLabel,
-              onFilePicked: _onFilePicked,
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // Test phone number section
-            Card(
-              elevation: 2,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Test Single Number',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    PhoneInputWidget(
-                      phoneController: phoneController,
-                      label: "Test Phone Number",
-                    ),
-                    const SizedBox(height: 8),
-                    CustomElevatedButton(
-                      text: "Send Test Message",
-                      onPressed: _sendTestMessage,
-                      minWidth: double.infinity,
-                    ),
-                  ],
+              // SIM Card Selection
+              SimCardSelector(
+                selectedSimSlot: selectedSimSlot,
+                onSimSelected: (simSlot) {
+                  setState(() {
+                    selectedSimSlot = simSlot;
+                  });
+                },
+              ),
+              const SizedBox(height: 16),
+
+              // Message input
+              TextFormField(
+                controller: messageController,
+                maxLines: 5,
+                decoration: const InputDecoration(
+                  border: OutlineInputBorder(),
+                  labelText: "Message",
                 ),
               ),
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-            // SIM Card Selection
-            SimCardSelector(
-              selectedSimSlot: selectedSimSlot,
-              onSimSelected: (simSlot) {
-                setState(() {
-                  selectedSimSlot = simSlot;
-                });
-              },
-            ),
-            const SizedBox(height: 16),
-
-            // Message input
-            TextFormField(
-              controller: messageController,
-              maxLines: 5,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(),
-                labelText: "Message",
+              // Bulk send button
+              CustomElevatedButton(
+                text: counter == 0 ? "Send to All Contacts" : "Sent $counter",
+                onPressed: _sendMessages,
               ),
-            ),
-            const SizedBox(height: 16),
-
-            // Bulk send button
-            CustomElevatedButton(
-              text: counter == 0 ? "Send to All Contacts" : "Sent $counter",
-              onPressed: _sendMessages,
-            ),
-            ContactsListWidget(sentContacts: sentContacts),
-          ],
+              ContactsListWidget(sentContacts: sentContacts),
+            ],
+          ),
         ),
       ),
     );
