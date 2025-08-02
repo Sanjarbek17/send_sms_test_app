@@ -34,6 +34,7 @@ class _MyAppState extends State<MyApp> {
     final permission = Permission.sms.request();
     if (await permission.isGranted) {
       await directSms.sendSms(message: message, phone: number);
+      await Future.delayed(const Duration(seconds: 1));
     }
   }
 
