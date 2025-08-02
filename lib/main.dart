@@ -3,9 +3,8 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-
-import 'package:direct_sms/direct_sms.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:sms_sender/sms_sender.dart';
 
 void main() {
   runApp(const MaterialApp(home: MyApp()));
@@ -19,7 +18,6 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  var directSms = DirectSms();
   List numbers = [];
   List sendNumbers = [];
   String label = "No file selected";
@@ -31,10 +29,12 @@ class _MyAppState extends State<MyApp> {
   }
 
   Future<void> _sendSms({required String number, required String message}) async {
-    final permission = Permission.sms.request();
-    if (await permission.isGranted) {
-      await directSms.sendSms(message: message, phone: number);
+    final permission = await Permission.sms.request();
+    if (permission.isGranted) {
+      await SmsSender.sendSms(phoneNumber: number, message: message);
       await Future.delayed(const Duration(seconds: 1));
+    } else {
+      throw Exception('SMS permission not granted');
     }
   }
 
@@ -48,9 +48,10 @@ class _MyAppState extends State<MyApp> {
           onPressed: () {
             setState(() {
               sendNumbers = [];
+              counter = 0;
             });
           },
-          child: const Text('clear'),
+          child: const Text('Clear'),
         ),
         appBar: AppBar(
           title: const Text('Message sender app'),
