@@ -1,6 +1,7 @@
 import 'package:permission_handler/permission_handler.dart';
 import 'package:sms_sender/sms_sender.dart';
 import 'package:flutter/services.dart';
+import 'permission_service.dart';
 
 class SmsService {
   static Future<void> sendSms({
@@ -9,9 +10,20 @@ class SmsService {
     int? simSlot,
   }) async {
     try {
-      final permission = await Permission.sms.request();
-      if (!permission.isGranted) {
-        throw Exception('SMS permission not granted. Please allow SMS permission in settings.');
+      // Check all required permissions
+      final hasPermissions = await PermissionService.hasAllSmsPermissions();
+      if (!hasPermissions) {
+        final permissions = await PermissionService.requestSmsPermissions();
+
+        final smsGranted = permissions[Permission.sms]?.isGranted ?? false;
+        final phoneGranted = permissions[Permission.phone]?.isGranted ?? false;
+
+        if (!smsGranted) {
+          throw Exception('SMS permission not granted. Please allow SMS permission in settings.');
+        }
+        if (!phoneGranted) {
+          throw Exception('Phone permission not granted. This is required for SIM card detection.');
+        }
       }
 
       // Get available SIM cards if no specific slot is provided
@@ -57,8 +69,9 @@ class SmsService {
 
   static Future<bool> checkSmsAvailability() async {
     try {
-      final permission = await Permission.sms.status;
-      if (permission.isDenied || permission.isPermanentlyDenied) {
+      // Check all required permissions
+      final hasPermissions = await PermissionService.hasAllSmsPermissions();
+      if (!hasPermissions) {
         return false;
       }
 

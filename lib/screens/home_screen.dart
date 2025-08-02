@@ -7,6 +7,7 @@ import '../widgets/contacts_list_widget.dart';
 import '../widgets/phone_input_widget.dart';
 import '../widgets/troubleshooting_dialog.dart';
 import '../widgets/sim_card_selector.dart';
+import '../widgets/permission_status_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -258,6 +259,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
                 ),
               ),
+              const SizedBox(height: 16),
+
+              // Permission Status
+              PermissionStatusWidget(),
               const SizedBox(height: 16),
 
               // SIM Card Selection

@@ -1,5 +1,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- SMS Permissions -->
     <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_SMS" />
+    
+    <!-- Phone State Permission - Required for dual SIM detection -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    
+    <!-- Internet permission for network operations -->
+    <uses-permission android:name="android.permission.INTERNET" />
+    
+    <!-- Optional: READ_CONTACTS if you want to access contacts -->
+    <!-- <uses-permission android:name="android.permission.READ_CONTACTS" /> -->
     <application
         android:label="send_sms_test_app"
         android:name="${applicationName}"
