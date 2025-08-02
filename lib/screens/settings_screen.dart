@@ -37,81 +37,46 @@ class _SettingsScreenState extends State<SettingsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.settings, color: Colors.white),
-            const SizedBox(width: 8),
-            const Text(
-              'Settings',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.help_outline),
-            onPressed: () => TroubleshootingDialog.show(context),
-            tooltip: 'Help & Troubleshooting',
-          ),
-        ],
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF2196F3), Color(0xFF1976D2)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.grey[50]!, Colors.white],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.grey[50]!, Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                // SMS Status Card
-                AnimatedCard(
-                  delay: 100,
-                  child: _buildSmsStatusCard(),
-                ),
-                const SizedBox(height: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // SMS Status Card
+              AnimatedCard(
+                delay: 100,
+                child: _buildSmsStatusCard(),
+              ),
+              const SizedBox(height: 16),
 
-                // Permission Status Card
-                AnimatedCard(
-                  delay: 200,
-                  child: _buildPermissionCard(),
-                ),
-                const SizedBox(height: 16),
+              // Permission Status Card
+              AnimatedCard(
+                delay: 200,
+                child: _buildPermissionCard(),
+              ),
+              const SizedBox(height: 16),
 
-                // SIM Card Selection Card
-                AnimatedCard(
-                  delay: 300,
-                  child: _buildSimCardCard(),
-                ),
-                const SizedBox(height: 16),
+              // SIM Card Selection Card
+              AnimatedCard(
+                delay: 300,
+                child: _buildSimCardCard(),
+              ),
+              const SizedBox(height: 16),
 
-                // App Information Card
-                AnimatedCard(
-                  delay: 400,
-                  child: _buildAppInfoCard(),
-                ),
-              ],
-            ),
+              // App Information Card
+              AnimatedCard(
+                delay: 400,
+                child: _buildAppInfoCard(),
+              ),
+            ],
           ),
         ),
       ),

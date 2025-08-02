@@ -12,6 +12,14 @@ class PhoneInputWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Ensure +998 is present at the start
+    if (!phoneController.text.startsWith('+998')) {
+      phoneController.text = '+998';
+      phoneController.selection = TextSelection.fromPosition(
+        TextPosition(offset: phoneController.text.length),
+      );
+    }
+
     return TextField(
       controller: phoneController,
       keyboardType: TextInputType.phone,
@@ -21,6 +29,15 @@ class PhoneInputWidget extends StatelessWidget {
         border: const OutlineInputBorder(),
         prefixIcon: const Icon(Icons.phone),
       ),
+      maxLength: 13, // +998XXXXXXXXX
+      onChanged: (value) {
+        if (!value.startsWith('+998')) {
+          phoneController.text = '+998';
+          phoneController.selection = TextSelection.fromPosition(
+            TextPosition(offset: phoneController.text.length),
+          );
+        }
+      },
     );
   }
 }

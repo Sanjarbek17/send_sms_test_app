@@ -27,13 +27,6 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
     super.dispose();
   }
 
-  void _clearData() {
-    setState(() {
-      phoneController.clear();
-      messageController.clear();
-    });
-  }
-
   Future<void> _sendTestMessage() async {
     if (phoneController.text.trim().isEmpty) {
       await _showErrorDialog("Please enter a phone number");
@@ -128,81 +121,46 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.grey[50],
-      appBar: AppBar(
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(Icons.phone_android, color: Colors.white),
-            const SizedBox(width: 8),
-            const Text(
-              'Test SMS',
-              style: TextStyle(
-                fontWeight: FontWeight.bold,
-                fontSize: 20,
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.clear_all),
-            onPressed: _clearData,
-            tooltip: 'Clear All Fields',
-          ),
-        ],
-        flexibleSpace: Container(
-          decoration: const BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Color(0xFF2196F3), Color(0xFF1976D2)],
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-            ),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Colors.grey[50]!, Colors.white],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
         ),
       ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.grey[50]!, Colors.white],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                // Info Card
-                AnimatedCard(
-                  delay: 100,
-                  child: _buildInfoCard(),
-                ),
-                const SizedBox(height: 16),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              // Info Card
+              AnimatedCard(
+                delay: 100,
+                child: _buildInfoCard(),
+              ),
+              const SizedBox(height: 16),
 
-                // Phone Input Card
-                AnimatedCard(
-                  delay: 200,
-                  child: _buildPhoneInputCard(),
-                ),
-                const SizedBox(height: 16),
+              // Phone Input Card
+              AnimatedCard(
+                delay: 200,
+                child: _buildPhoneInputCard(),
+              ),
+              const SizedBox(height: 16),
 
-                // Message Input Card
-                AnimatedCard(
-                  delay: 300,
-                  child: _buildMessageInputCard(),
-                ),
-                const SizedBox(height: 16),
+              // Message Input Card
+              AnimatedCard(
+                delay: 300,
+                child: _buildMessageInputCard(),
+              ),
+              const SizedBox(height: 16),
 
-                // Send Button Card
-                AnimatedCard(
-                  delay: 400,
-                  child: _buildSendButtonCard(),
-                ),
-              ],
-            ),
+              // Send Button Card
+              AnimatedCard(
+                delay: 400,
+                child: _buildSendButtonCard(),
+              ),
+            ],
           ),
         ),
       ),
@@ -260,6 +218,23 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton.icon(
+                    onPressed: () {
+                      setState(() {
+                        phoneController.clear();
+                        messageController.clear();
+                      });
+                    },
+                    icon: const Icon(Icons.clear_all),
+                    label: const Text('Clear All'),
+                  ),
+                ),
+              ],
             ),
           ],
         ),
