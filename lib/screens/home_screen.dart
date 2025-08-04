@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/sms_service.dart';
+import '../services/custom_sms_service.dart';
 import '../widgets/animated_card.dart';
 import '../widgets/troubleshooting_dialog.dart';
 import 'settings_screen.dart';
@@ -40,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _checkSmsAvailability() async {
-    final available = await SmsService.checkSmsAvailability();
+    final available = await CustomSmsService.checkSmsAvailability();
     setState(() {
       isSmsAvailable = available;
     });
@@ -216,20 +216,15 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isSmsAvailable
-                        ? 'SMS Service Ready'
-                        : 'SMS Service Unavailable',
+                    isSmsAvailable ? 'SMS Service Ready' : 'SMS Service Unavailable',
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color:
-                          isSmsAvailable ? Colors.green[700] : Colors.red[700],
+                      color: isSmsAvailable ? Colors.green[700] : Colors.red[700],
                     ),
                   ),
                   Text(
-                    isSmsAvailable
-                        ? 'Your device is ready to send SMS messages'
-                        : 'Please check your SIM card and permissions',
+                    isSmsAvailable ? 'Your device is ready to send SMS messages' : 'Please check your SIM card and permissions',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -284,16 +279,14 @@ class _HomeScreenState extends State<HomeScreen> with TickerProviderStateMixin {
                   title: 'Test SMS',
                   subtitle: 'Send test message',
                   color: Colors.green,
-                  onTap: () => _navigateToScreen(
-                      TestSmsScreen(selectedSimSlot: selectedSimSlot)),
+                  onTap: () => _navigateToScreen(TestSmsScreen(selectedSimSlot: selectedSimSlot)),
                 ),
                 _buildActionButton(
                   icon: Icons.group,
                   title: 'Bulk SMS',
                   subtitle: 'Send to multiple contacts',
                   color: Colors.blue,
-                  onTap: () => _navigateToScreen(
-                      BulkSmsScreen(selectedSimSlot: selectedSimSlot)),
+                  onTap: () => _navigateToScreen(BulkSmsScreen(selectedSimSlot: selectedSimSlot)),
                 ),
                 _buildActionButton(
                   icon: Icons.settings,

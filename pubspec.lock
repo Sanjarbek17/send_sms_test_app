@@ -442,14 +442,6 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
-  sms_sender:
-    dependency: "direct main"
-    description:
-      name: sms_sender
-      sha256: "66256fa78ce6dadfc7878b2e0790149fd0b5324ceb974c5f5145299e862992aa"
-      url: "https://pub.dev"
-    source: hosted
-    version: "1.0.5"
   source_span:
     dependency: transitive
     description:

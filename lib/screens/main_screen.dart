@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/sms_service.dart';
+import '../services/custom_sms_service.dart';
 import '../services/settings_service.dart';
 import '../widgets/animated_card.dart';
 import '../widgets/troubleshooting_dialog.dart';
@@ -52,7 +52,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   }
 
   Future<void> _checkSmsAvailability() async {
-    final available = await SmsService.checkSmsAvailability();
+    final available = await CustomSmsService.checkSmsAvailability();
     setState(() {
       isSmsAvailable = available;
     });

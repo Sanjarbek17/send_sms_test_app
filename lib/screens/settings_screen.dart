@@ -5,7 +5,7 @@ import '../widgets/animated_card.dart';
 import '../widgets/troubleshooting_dialog.dart';
 import '../widgets/language_selector.dart';
 import '../widgets/delay_settings_widget.dart';
-import '../services/sms_service.dart';
+import '../services/custom_sms_service.dart';
 import '../services/language_service.dart';
 
 import '../generated/l10n/app_localizations.dart';
@@ -34,7 +34,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
   }
 
   Future<void> _checkSmsAvailability() async {
-    final available = await SmsService.checkSmsAvailability();
+    final available = await CustomSmsService.checkSmsAvailability();
     setState(() {
       isSmsAvailable = available;
     });
