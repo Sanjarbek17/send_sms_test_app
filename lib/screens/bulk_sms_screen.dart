@@ -21,7 +21,7 @@ class BulkSmsScreen extends StatefulWidget {
 class _BulkSmsScreenState extends State<BulkSmsScreen> {
   List<Contact> contacts = [];
   List<Contact> sentContacts = [];
-  String fileLabel = "No file selected";
+  String? fileLabel; // Will be set to localized text when needed
   int counter = 0;
   bool isSending = false;
 
@@ -44,12 +44,12 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
 
   Future<void> _sendMessages() async {
     if (contacts.isEmpty) {
-      await _showErrorDialog("Please select a file with contacts");
+      await _showErrorDialog(AppLocalizations.of(context).pleaseSelectFile);
       return;
     }
 
     if (messageController.text.trim().isEmpty) {
-      await _showErrorDialog("Please enter a message to send");
+      await _showErrorDialog(AppLocalizations.of(context).pleaseEnterMessageToSend);
       return;
     }
 
@@ -214,9 +214,9 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               children: [
                 Icon(Icons.folder_open, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                const Text(
-                  'Select Contact File',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).selectContactFile,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -225,7 +225,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             ),
             const SizedBox(height: 16),
             FilePickerWidget(
-              label: fileLabel,
+              label: fileLabel ?? AppLocalizations.of(context).noFileSelected,
               onFilePicked: _onFilePicked,
             ),
             if (contacts.isNotEmpty) ...[
@@ -246,7 +246,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            '${contacts.length} contacts loaded',
+                            '${contacts.length} ${AppLocalizations.of(context).contactsLoaded}',
                             style: TextStyle(
                               color: Colors.green[700],
                               fontWeight: FontWeight.w500,
@@ -254,7 +254,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                             ),
                           ),
                           Text(
-                            'Ready to send bulk messages',
+                            AppLocalizations.of(context).readyToSendBulk,
                             style: TextStyle(
                               color: Colors.green[600],
                               fontSize: 14,
@@ -284,9 +284,9 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               children: [
                 Icon(Icons.message, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                const Text(
-                  'Message Content',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).messageContent,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -299,11 +299,11 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               maxLines: 6,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: "Enter your message",
-                hintText: "Type the message you want to send to all contacts...",
+                labelText: AppLocalizations.of(context).enterYourMessage,
+                hintText: AppLocalizations.of(context).messageHint,
                 prefixIcon: const Icon(Icons.edit),
                 suffixText: '${messageController.text.length}/160',
-                helperText: 'This message will be sent to all selected contacts',
+                helperText: AppLocalizations.of(context).helperText,
               ),
               onChanged: (value) {
                 setState(() {}); // To update character count
@@ -319,12 +319,12 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                         sentContacts = [];
                         counter = 0;
                         contacts = [];
-                        fileLabel = "No file selected";
+                        fileLabel = AppLocalizations.of(context).noFileSelected;
                         messageController.clear();
                       });
                     },
                     icon: const Icon(Icons.clear_all),
-                    label: const Text('Clear All Data'),
+                    label: Text(AppLocalizations.of(context).clearAllData),
                   ),
                 ),
               ],
@@ -357,7 +357,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                       )
                     : const Icon(Icons.send_rounded, size: 24),
                 label: Text(
-                  isSending ? 'Sending... ($counter/${contacts.length})' : "Send to All Contacts (${contacts.length})",
+                  isSending ? '${AppLocalizations.of(context).sending} ($counter/${contacts.length})' : "${AppLocalizations.of(context).sendToAllContacts} (${contacts.length})",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -374,7 +374,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             const SizedBox(height: 8),
             if (contacts.isEmpty)
               Text(
-                'Please select a contact file first',
+                AppLocalizations.of(context).pleaseSelectFile,
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -382,7 +382,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               )
             else if (messageController.text.trim().isEmpty)
               Text(
-                'Please enter a message to send',
+                AppLocalizations.of(context).pleaseEnterMessageToSend,
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -390,7 +390,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               )
             else
               Text(
-                'Ready to send to ${contacts.length} contacts',
+                AppLocalizations.of(context).readyToSendToContacts(contacts.length),
                 style: TextStyle(
                   color: Colors.green[600],
                   fontSize: 14,
@@ -414,9 +414,9 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               children: [
                 Icon(Icons.analytics, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                const Text(
-                  'Sending Progress',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).sendingProgress,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -435,7 +435,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    '$counter of ${contacts.length} messages sent',
+                    AppLocalizations.of(context).messagesSent(counter, contacts.length),
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
