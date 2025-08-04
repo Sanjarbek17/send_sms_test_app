@@ -479,4 +479,10 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get defaultPhoneHeader => 'phone';
+
+  @override
+  String get readyToSendTestMessage => 'Ready to send test message';
+
+  @override
+  String get tipTestOwnNumber => 'Tip: Test with your own number first';
 }

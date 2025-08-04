@@ -486,4 +486,10 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get defaultPhoneHeader => 'телефон';
+
+  @override
+  String get readyToSendTestMessage => 'Готов отправить тестовое сообщение';
+
+  @override
+  String get tipTestOwnNumber => 'Совет: Сначала протестируйте на своем номере';
 }

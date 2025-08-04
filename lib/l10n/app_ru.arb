@@ -145,5 +145,7 @@
     "checkingPermissions": "Проверка разрешений...",
     "permissionStatus": "Статус Разрешений",
     "whyThesePermissions": "Зачем эти разрешения?",
-    "smsApp": "SMS Отправитель"
+    "smsApp": "SMS Отправитель",
+    "readyToSendTestMessage": "Готов отправить тестовое сообщение",
+    "tipTestOwnNumber": "Совет: Сначала протестируйте на своем номере"
 }

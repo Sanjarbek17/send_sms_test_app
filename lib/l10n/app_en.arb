@@ -611,5 +611,13 @@
     "defaultPhoneHeader": "phone",
     "@defaultPhoneHeader": {
         "description": "Default phone header for file picker"
+    },
+    "readyToSendTestMessage": "Ready to send test message",
+    "@readyToSendTestMessage": {
+        "description": "Ready to send status message"
+    },
+    "tipTestOwnNumber": "Tip: Test with your own number first",
+    "@tipTestOwnNumber": {
+        "description": "Tip message for testing SMS"
     }
 }

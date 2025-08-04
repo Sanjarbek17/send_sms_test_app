@@ -210,7 +210,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
                   const SizedBox(width: 8),
                   Expanded(
                     child: Text(
-                      'Tip: Test with your own number first',
+                      AppLocalizations.of(context).tipTestOwnNumber,
                       style: TextStyle(
                         color: Colors.blue[700],
                         fontWeight: FontWeight.w500,
@@ -254,9 +254,9 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
               children: [
                 Icon(Icons.phone, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                const Text(
-                  'Phone Number',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).phoneNumber,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -270,7 +270,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Enter the phone number you want to test with (including country code)',
+              AppLocalizations.of(context).enterPhoneNumber,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[600],
@@ -293,9 +293,9 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
               children: [
                 Icon(Icons.message, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                const Text(
-                  'Test Message',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).testMessage,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -308,7 +308,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
               maxLines: 4,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                labelText: "Enter test message",
+                labelText: AppLocalizations.of(context).enterTestMessage,
                 hintText: AppLocalizations.of(context).testMessageHint,
                 prefixIcon: const Icon(Icons.edit),
                 suffixText: '${messageController.text.length}/160',
@@ -319,7 +319,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
             ),
             const SizedBox(height: 8),
             Text(
-              'Write a short test message to verify SMS functionality',
+              AppLocalizations.of(context).writeTestMessage,
               style: TextStyle(
                 fontSize: 14,
                 color: Colors.grey[600],
@@ -355,7 +355,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
                       )
                     : const Icon(Icons.send, size: 24),
                 label: Text(
-                  isSending ? 'Sending Test...' : 'Send Test Message',
+                  isSending ? AppLocalizations.of(context).sendingTest : AppLocalizations.of(context).sendTestMessageBtn,
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -372,7 +372,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
             const SizedBox(height: 8),
             if (!canSend && !isSending)
               Text(
-                phoneController.text.trim().isEmpty ? 'Please enter a phone number' : 'Please enter a test message',
+                phoneController.text.trim().isEmpty ? AppLocalizations.of(context).pleaseEnterPhoneNumber : AppLocalizations.of(context).pleaseEnterMessage,
                 style: TextStyle(
                   color: Colors.grey[600],
                   fontSize: 14,
@@ -380,7 +380,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
               )
             else if (canSend)
               Text(
-                'Ready to send test message',
+                AppLocalizations.of(context).readyToSendTestMessage,
                 style: TextStyle(
                   color: Colors.green[600],
                   fontSize: 14,

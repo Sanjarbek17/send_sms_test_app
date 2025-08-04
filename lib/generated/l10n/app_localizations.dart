@@ -975,6 +975,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'phone'**
   String get defaultPhoneHeader;
+
+  /// Ready to send status message
+  ///
+  /// In en, this message translates to:
+  /// **'Ready to send test message'**
+  String get readyToSendTestMessage;
+
+  /// Tip message for testing SMS
+  ///
+  /// In en, this message translates to:
+  /// **'Tip: Test with your own number first'**
+  String get tipTestOwnNumber;
 }
 
 class _AppLocalizationsDelegate

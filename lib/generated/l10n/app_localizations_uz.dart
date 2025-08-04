@@ -484,4 +484,11 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get defaultPhoneHeader => 'telefon';
+
+  @override
+  String get readyToSendTestMessage => 'Test xabarini yuborishga tayyor';
+
+  @override
+  String get tipTestOwnNumber =>
+      'Maslahat: Avval o\'z raqamingizga sinab ko\'ring';
 }

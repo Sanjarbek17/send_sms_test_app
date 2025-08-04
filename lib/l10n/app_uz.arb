@@ -145,5 +145,7 @@
     "checkingPermissions": "Ruxsatlar tekshirilmoqda...",
     "permissionStatus": "Ruxsat Holati",
     "whyThesePermissions": "Nima uchun bu ruxsatlar?",
-    "smsApp": "SMS Yuboruvchi Ilovasi"
+    "smsApp": "SMS Yuboruvchi Ilovasi",
+    "readyToSendTestMessage": "Test xabarini yuborishga tayyor",
+    "tipTestOwnNumber": "Maslahat: Avval o'z raqamingizga sinab ko'ring"
 }
