@@ -174,8 +174,9 @@ class CustomSmsService {
         });
 
         if (result is Map) {
-          final sendId = result['sendId'] as String?;
-          final resultMessage = result['message'] as String?;
+          final resultMap = Map<String, dynamic>.from(result);
+          final sendId = resultMap['sendId'] as String?;
+          final resultMessage = resultMap['message'] as String?;
 
           print('SMS send initiated: $resultMessage (ID: $sendId)');
 
@@ -262,7 +263,7 @@ class CustomSmsService {
     try {
       final result = await _methodChannel.invokeMethod('getSimCards');
       if (result is List) {
-        return result.cast<Map<String, dynamic>>();
+        return result.map((item) => Map<String, dynamic>.from(item as Map)).toList();
       }
       return [];
     } catch (e) {

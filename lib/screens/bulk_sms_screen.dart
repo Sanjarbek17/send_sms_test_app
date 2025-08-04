@@ -163,10 +163,42 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
         } catch (e) {
           print('Error sending SMS to ${contact.name}: $e');
           setState(() {
-            isSending = false;
+            skippedContacts.add(contact);
+            skippedCounter++;
+            counter++;
+            currentSendingStatus = 'Failed - $e';
           });
-          await _showErrorDialog("Failed to send to ${contact.name}: $e");
-          break;
+          
+          // Show a dialog asking if user wants to continue or stop
+          final shouldContinue = await showDialog<bool>(
+            context: context,
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: Text('SMS Failed'),
+                content: Text('Failed to send SMS to ${contact.name}:\n\n$e\n\nDo you want to continue with remaining contacts?'),
+                actions: [
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(false),
+                    child: Text('Stop'),
+                  ),
+                  TextButton(
+                    onPressed: () => Navigator.of(context).pop(true),
+                    child: Text('Continue'),
+                  ),
+                ],
+              );
+            },
+          );
+          
+          if (shouldContinue != true) {
+            setState(() {
+              isSending = false;
+            });
+            break;
+          }
+          
+          // Brief delay before continuing
+          await Future.delayed(Duration(milliseconds: 500));
         }
       }
 
