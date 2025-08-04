@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/sms_service.dart';
+import '../services/settings_service.dart';
 import '../widgets/animated_card.dart';
 import '../widgets/troubleshooting_dialog.dart';
 import '../generated/l10n/app_localizations.dart';
@@ -37,8 +38,17 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
       curve: Curves.easeInOut,
     ));
 
+    _initializeSettings();
     _checkSmsAvailability();
     _animationController.forward();
+  }
+
+  Future<void> _initializeSettings() async {
+    final settingsService = SettingsService.instance;
+    final simSlot = await settingsService.getSelectedSimSlot();
+    setState(() {
+      selectedSimSlot = simSlot;
+    });
   }
 
   Future<void> _checkSmsAvailability() async {
@@ -66,10 +76,13 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
         BulkSmsScreen(selectedSimSlot: selectedSimSlot),
         SettingsScreen(
           selectedSimSlot: selectedSimSlot,
-          onSimSelected: (simSlot) {
+          onSimSelected: (simSlot) async {
             setState(() {
               selectedSimSlot = simSlot;
             });
+            // Persist the selection to settings
+            final settingsService = SettingsService.instance;
+            await settingsService.setSelectedSimSlot(simSlot);
           },
         ),
       ];
@@ -296,20 +309,15 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isSmsAvailable
-                        ? AppLocalizations.of(context).smsServiceReady
-                        : AppLocalizations.of(context).smsServiceUnavailable,
+                    isSmsAvailable ? AppLocalizations.of(context).smsServiceReady : AppLocalizations.of(context).smsServiceUnavailable,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color:
-                          isSmsAvailable ? Colors.green[700] : Colors.red[700],
+                      color: isSmsAvailable ? Colors.green[700] : Colors.red[700],
                     ),
                   ),
                   Text(
-                    isSmsAvailable
-                        ? AppLocalizations.of(context).deviceReady
-                        : AppLocalizations.of(context).checkSimCard,
+                    isSmsAvailable ? AppLocalizations.of(context).deviceReady : AppLocalizations.of(context).checkSimCard,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,

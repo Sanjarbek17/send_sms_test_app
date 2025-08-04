@@ -45,8 +45,7 @@ class FileService {
     return jsonData.map((json) => Contact.fromJson(json)).toList();
   }
 
-  static List<Contact> _parseCsvFile(
-      File file, String nameHeader, String phoneHeader) {
+  static List<Contact> _parseCsvFile(File file, String nameHeader, String phoneHeader) {
     String contents = file.readAsStringSync();
     List<List<dynamic>> csvData = const CsvToListConverter().convert(contents);
 
@@ -58,9 +57,7 @@ class FileService {
     Map<String, int> columnIndices = {};
     bool hasHeader = false;
 
-    if (csvData[0].any((cell) =>
-        cell.toString().toLowerCase().contains(nameHeader.toLowerCase()) ||
-        cell.toString().toLowerCase().contains(phoneHeader.toLowerCase()))) {
+    if (csvData[0].any((cell) => cell.toString().toLowerCase().contains(nameHeader.toLowerCase()) || cell.toString().toLowerCase().contains(phoneHeader.toLowerCase()))) {
       hasHeader = true;
 
       // Find the indices of name and phone columns
@@ -84,7 +81,7 @@ class FileService {
       if (row.length > nameIndex && row.length > phoneIndex) {
         contacts.add(Contact(
           name: row[nameIndex].toString().trim(),
-          phone: row[phoneIndex].toString().trim(),
+          phone: _cleanPhoneNumber(row[phoneIndex]),
         ));
       }
     }
@@ -92,8 +89,19 @@ class FileService {
     return contacts;
   }
 
-  static List<Contact> _parseExcelFile(
-      File file, String nameHeader, String phoneHeader) {
+  /// Helper function to clean phone numbers from CSV/Excel parsing
+  static String _cleanPhoneNumber(dynamic phoneValue) {
+    String phoneStr = phoneValue.toString().trim();
+
+    // Remove decimal points and anything after them (handles .0 from numeric parsing)
+    if (phoneStr.contains('.')) {
+      phoneStr = phoneStr.split('.')[0];
+    }
+
+    return phoneStr;
+  }
+
+  static List<Contact> _parseExcelFile(File file, String nameHeader, String phoneHeader) {
     var bytes = file.readAsBytesSync();
     var excel = Excel.decodeBytes(bytes);
 
@@ -112,18 +120,7 @@ class FileService {
       Map<String, int> columnIndices = {};
       bool hasHeader = false;
 
-      if (rows[0].length >= 2 &&
-          rows[0].any((cell) =>
-              cell?.value
-                      .toString()
-                      .toLowerCase()
-                      .contains(nameHeader.toLowerCase()) ==
-                  true ||
-              cell?.value
-                      .toString()
-                      .toLowerCase()
-                      .contains(phoneHeader.toLowerCase()) ==
-                  true)) {
+      if (rows[0].length >= 2 && rows[0].any((cell) => cell?.value.toString().toLowerCase().contains(nameHeader.toLowerCase()) == true || cell?.value.toString().toLowerCase().contains(phoneHeader.toLowerCase()) == true)) {
         hasHeader = true;
 
         // Find the indices of name and phone columns
@@ -144,13 +141,10 @@ class FileService {
 
       for (int i = startRow; i < rows.length; i++) {
         List<Data?> row = rows[i];
-        if (row.length > nameIndex &&
-            row.length > phoneIndex &&
-            row[nameIndex]?.value != null &&
-            row[phoneIndex]?.value != null) {
+        if (row.length > nameIndex && row.length > phoneIndex && row[nameIndex]?.value != null && row[phoneIndex]?.value != null) {
           contacts.add(Contact(
             name: row[nameIndex]!.value.toString().trim(),
-            phone: row[phoneIndex]!.value.toString().trim(),
+            phone: _cleanPhoneNumber(row[phoneIndex]!.value),
           ));
         }
       }
