@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'generated/l10n/app_localizations.dart';
 import 'services/language_service.dart';
-import 'services/enhanced_sms_service.dart';
+import 'services/custom_sms_service.dart';
 import 'screens/main_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Initialize the enhanced SMS service
-  await EnhancedSmsService.initialize();
+  // Initialize the custom SMS service
+  await CustomSmsService.initialize();
 
   runApp(const MyApp());
 }
@@ -35,8 +35,8 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     _languageService.removeListener(() {});
-    // Dispose the enhanced SMS service
-    EnhancedSmsService.dispose();
+    // Dispose the custom SMS service
+    CustomSmsService.dispose();
     super.dispose();
   }
 

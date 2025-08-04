@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import '../services/enhanced_sms_service.dart';
+import '../services/custom_sms_service.dart';
 import '../widgets/file_picker_widget.dart';
 import '../widgets/contacts_list_widget.dart';
 import '../widgets/animated_card.dart';
 import '../models/contact.dart';
 import '../generated/l10n/app_localizations.dart';
+import 'dart:async';
 
 class BulkSmsScreen extends StatefulWidget {
   final int? selectedSimSlot;
@@ -29,11 +30,40 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
   bool isSending = false;
   String currentSendingStatus = ''; // Track current SMS status
   String currentContactName = ''; // Track current contact being processed
+  StreamSubscription<SmsStatusUpdate>? _statusSubscription;
 
   final TextEditingController messageController = TextEditingController();
 
   @override
+  void initState() {
+    super.initState();
+    _setupStatusListener();
+  }
+
+  void _setupStatusListener() {
+    try {
+      _statusSubscription = CustomSmsService.statusStream.listen(
+        (statusUpdate) {
+          if (mounted) {
+            setState(() {
+              // Update current status based on the stream
+              currentSendingStatus = 'Status: ${statusUpdate.status.statusName}';
+            });
+            print('Real-time status: ${statusUpdate.phoneNumber} - ${statusUpdate.status.statusName}');
+          }
+        },
+        onError: (error) {
+          print('Status stream error: $error');
+        },
+      );
+    } catch (e) {
+      print('Failed to setup status listener: $e');
+    }
+  }
+
+  @override
   void dispose() {
+    _statusSubscription?.cancel();
     messageController.dispose();
     super.dispose();
   }
@@ -110,11 +140,11 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
           });
 
           // Send SMS with enhanced status tracking - waits for actual sent confirmation
-          final smsResult = await EnhancedSmsService.sendSmsWithTracking(
+          final smsResult = await CustomSmsService.sendSmsWithTracking(
             message: messageController.text,
             number: contact.phone.trim(),
             simSlot: widget.selectedSimSlot,
-            timeout: const Duration(seconds: 30), // Wait up to 30 seconds for each SMS
+            timeout: const Duration(seconds: 30), // Custom SMS service needs more time for real status
           );
 
           if (smsResult.success) {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/sms_service.dart';
+import '../services/custom_sms_service.dart';
 import '../widgets/phone_input_widget.dart';
 import '../widgets/animated_card.dart';
 import '../generated/l10n/app_localizations.dart';
@@ -44,7 +44,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
     });
 
     try {
-      await SmsService.sendSms(
+      await CustomSmsService.sendSms(
         message: messageController.text,
         number: phoneController.text.trim(),
         simSlot: widget.selectedSimSlot,

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/sms_service.dart';
+import '../services/custom_sms_service.dart';
 
 class SimCardSelector extends StatefulWidget {
   final Function(int?) onSimSelected;
@@ -27,7 +27,7 @@ class _SimCardSelectorState extends State<SimCardSelector> {
 
   Future<void> _loadSimCards() async {
     try {
-      final cards = await SmsService.getAvailableSimCards();
+      final cards = await CustomSmsService.getAvailableSimCards();
       setState(() {
         simCards = cards;
         isLoading = false;
