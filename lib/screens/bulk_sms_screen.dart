@@ -22,8 +22,11 @@ class BulkSmsScreen extends StatefulWidget {
 class _BulkSmsScreenState extends State<BulkSmsScreen> {
   List<Contact> contacts = [];
   List<Contact> sentContacts = [];
+  List<Contact> skippedContacts = [];
   String? fileLabel; // Will be set to localized text when needed
   int counter = 0;
+  int sentCounter = 0;
+  int skippedCounter = 0;
   bool isSending = false;
 
   final TextEditingController messageController = TextEditingController();
@@ -39,7 +42,10 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
       contacts = pickedContacts;
       fileLabel = fileName;
       sentContacts.clear();
+      skippedContacts.clear();
       counter = 0;
+      sentCounter = 0;
+      skippedCounter = 0;
     });
   }
 
@@ -57,7 +63,10 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
     setState(() {
       isSending = true;
       sentContacts.clear();
+      skippedContacts.clear();
       counter = 0;
+      sentCounter = 0;
+      skippedCounter = 0;
     });
 
     try {
@@ -66,17 +75,42 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
 
       for (var contact in contacts) {
         try {
+          // Debug logging
+          print('Attempting to send SMS to: ${contact.name} (${contact.phone.trim()})');
+          print('Message length: ${messageController.text.length}');
+          print('SIM slot: ${widget.selectedSimSlot}');
+
+          // Validate phone number and message before sending
+          if (contact.phone.trim().isEmpty) {
+            print("Skipping contact ${contact.name} - empty phone number");
+            // Add to skipped contacts instead of sent contacts
+            setState(() {
+              skippedContacts.add(contact);
+              skippedCounter++;
+              counter++;
+            });
+            continue; // Skip this contact instead of throwing an error
+          }
+
+          if (messageController.text.trim().isEmpty) {
+            throw Exception("Message is empty");
+          }
+
           await SmsService.sendSms(
             message: messageController.text,
             number: contact.phone.trim(),
             simSlot: widget.selectedSimSlot,
           );
+
+          print('SMS sent successfully to ${contact.name}');
           await Future.delayed(Duration(seconds: delaySeconds)); // Use dynamic delay
           setState(() {
             sentContacts.add(contact);
+            sentCounter++;
             counter++;
           });
         } catch (e) {
+          print('Error sending SMS to ${contact.name}: $e');
           setState(() {
             isSending = false;
           });
@@ -88,7 +122,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
       setState(() {
         isSending = false;
       });
-      await _showSuccessDialog(AppLocalizations.of(context).messagesSentSuccessfully(counter));
+      await _showSuccessDialog("${AppLocalizations.of(context).messagesSentSuccessfully(sentCounter)}${skippedCounter > 0 ? '\n$skippedCounter contacts were skipped due to missing phone numbers.' : ''}");
     } catch (e) {
       setState(() {
         isSending = false;
@@ -195,7 +229,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               const SizedBox(height: 16),
 
               // Progress Card
-              if (sentContacts.isNotEmpty || isSending)
+              if (sentContacts.isNotEmpty || skippedContacts.isNotEmpty || isSending)
                 AnimatedCard(
                   delay: 400,
                   child: _buildProgressCard(),
@@ -232,6 +266,31 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               label: fileLabel ?? AppLocalizations.of(context).noFileSelected,
               onFilePicked: _onFilePicked,
             ),
+
+            // Add test contact button for debugging
+            const SizedBox(height: 12),
+            OutlinedButton.icon(
+              onPressed: () {
+                setState(() {
+                  contacts = [
+                    Contact(name: "Test Contact 1", phone: "+998901234567"),
+                    Contact(name: "Test Contact 2", phone: "+998901234568"),
+                    Contact(name: "Test Contact 3", phone: "+998901234569"),
+                    Contact(name: "Empty Phone Test", phone: ""), // Test empty phone
+                    Contact(name: "Same Number Test", phone: "+998901234567"), // Same as first for testing
+                  ];
+                  fileLabel = "Test contacts (5 contacts, 1 with empty phone)";
+                  sentContacts.clear();
+                  skippedContacts.clear();
+                  counter = 0;
+                  sentCounter = 0;
+                  skippedCounter = 0;
+                });
+              },
+              icon: const Icon(Icons.bug_report),
+              label: const Text("Add Test Contacts"),
+            ),
+
             if (contacts.isNotEmpty) ...[
               const SizedBox(height: 12),
               Container(
@@ -321,7 +380,10 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                     onPressed: () {
                       setState(() {
                         sentContacts = [];
+                        skippedContacts = [];
                         counter = 0;
+                        sentCounter = 0;
+                        skippedCounter = 0;
                         contacts = [];
                         fileLabel = AppLocalizations.of(context).noFileSelected;
                         messageController.clear();
@@ -439,7 +501,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context).messagesSent(counter, contacts.length),
+                    'Processed: $counter/${contacts.length}',
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -455,9 +517,187 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                   ),
                 ],
               ),
+              const SizedBox(height: 12),
+
+              // Detailed statistics
+              Row(
+                children: [
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.green[50],
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: Colors.green[200]!),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.check_circle, color: Colors.green[600], size: 20),
+                          const SizedBox(height: 4),
+                          Text(
+                            '$sentCounter',
+                            style: TextStyle(
+                              color: Colors.green[700],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            'Sent',
+                            style: TextStyle(
+                              color: Colors.green[600],
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.orange[50],
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: Colors.orange[200]!),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.skip_next, color: Colors.orange[600], size: 20),
+                          const SizedBox(height: 4),
+                          Text(
+                            '$skippedCounter',
+                            style: TextStyle(
+                              color: Colors.orange[700],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            'Skipped',
+                            style: TextStyle(
+                              color: Colors.orange[600],
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Expanded(
+                    child: Container(
+                      padding: const EdgeInsets.all(8),
+                      decoration: BoxDecoration(
+                        color: Colors.grey[100],
+                        borderRadius: BorderRadius.circular(6),
+                        border: Border.all(color: Colors.grey[300]!),
+                      ),
+                      child: Column(
+                        children: [
+                          Icon(Icons.pending, color: Colors.grey[600], size: 20),
+                          const SizedBox(height: 4),
+                          Text(
+                            '${contacts.length - counter}',
+                            style: TextStyle(
+                              color: Colors.grey[700],
+                              fontWeight: FontWeight.bold,
+                              fontSize: 16,
+                            ),
+                          ),
+                          Text(
+                            'Pending',
+                            style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 12,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
               const SizedBox(height: 16),
             ],
-            if (sentContacts.isNotEmpty) ContactsListWidget(sentContacts: sentContacts),
+
+            // Show sent contacts
+            if (sentContacts.isNotEmpty) ...[
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.green[50],
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.green[200]!),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.check_circle, color: Colors.green[600], size: 18),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Successfully Sent ($sentCounter)',
+                          style: TextStyle(
+                            color: Colors.green[700],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    ContactsListWidget(sentContacts: sentContacts),
+                  ],
+                ),
+              ),
+            ],
+
+            // Show skipped contacts
+            if (skippedContacts.isNotEmpty) ...[
+              Container(
+                margin: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.all(12),
+                decoration: BoxDecoration(
+                  color: Colors.orange[50],
+                  borderRadius: BorderRadius.circular(8),
+                  border: Border.all(color: Colors.orange[200]!),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Icon(Icons.skip_next, color: Colors.orange[600], size: 18),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Skipped Contacts ($skippedCounter)',
+                          style: TextStyle(
+                            color: Colors.orange[700],
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 8),
+                    ContactsListWidget(sentContacts: skippedContacts),
+                    const SizedBox(height: 4),
+                    Text(
+                      'Reason: Missing phone numbers',
+                      style: TextStyle(
+                        color: Colors.orange[600],
+                        fontSize: 12,
+                        fontStyle: FontStyle.italic,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ],
         ),
       ),
