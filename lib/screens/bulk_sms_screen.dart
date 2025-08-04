@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/sms_service.dart';
-import '../services/settings_service.dart';
+import '../services/enhanced_sms_service.dart';
 import '../widgets/file_picker_widget.dart';
 import '../widgets/contacts_list_widget.dart';
 import '../widgets/animated_card.dart';
@@ -28,6 +27,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
   int sentCounter = 0;
   int skippedCounter = 0;
   bool isSending = false;
+  String currentSendingStatus = ''; // Track current SMS status
+  String currentContactName = ''; // Track current contact being processed
 
   final TextEditingController messageController = TextEditingController();
 
@@ -46,6 +47,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
       counter = 0;
       sentCounter = 0;
       skippedCounter = 0;
+      currentSendingStatus = '';
+      currentContactName = '';
     });
   }
 
@@ -67,13 +70,17 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
       counter = 0;
       sentCounter = 0;
       skippedCounter = 0;
+      currentSendingStatus = 'Initializing...';
+      currentContactName = '';
     });
 
     try {
-      // Get the current delay setting
-      final delaySeconds = await SettingsService.instance.getSmsDelaySeconds();
-
       for (var contact in contacts) {
+        setState(() {
+          currentContactName = contact.name;
+          currentSendingStatus = 'Preparing to send...';
+        });
+
         try {
           // Debug logging
           print('Attempting to send SMS to: ${contact.name} (${contact.phone.trim()})');
@@ -88,7 +95,9 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               skippedContacts.add(contact);
               skippedCounter++;
               counter++;
+              currentSendingStatus = 'Skipped - No phone number';
             });
+            await Future.delayed(Duration(milliseconds: 300)); // Brief pause to show status
             continue; // Skip this contact instead of throwing an error
           }
 
@@ -96,19 +105,31 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             throw Exception("Message is empty");
           }
 
-          await SmsService.sendSms(
+          setState(() {
+            currentSendingStatus = 'Sending SMS...';
+          });
+
+          // Send SMS with enhanced status tracking - waits for actual sent confirmation
+          final smsResult = await EnhancedSmsService.sendSmsWithTracking(
             message: messageController.text,
             number: contact.phone.trim(),
             simSlot: widget.selectedSimSlot,
+            timeout: const Duration(seconds: 30), // Wait up to 30 seconds for each SMS
           );
 
-          print('SMS sent successfully to ${contact.name}');
-          await Future.delayed(Duration(seconds: delaySeconds)); // Use dynamic delay
-          setState(() {
-            sentContacts.add(contact);
-            sentCounter++;
-            counter++;
-          });
+          if (smsResult.success) {
+            print('SMS ${smsResult.type.toString().split('.').last} to ${contact.name}: ${smsResult.message}');
+            setState(() {
+              sentContacts.add(contact);
+              sentCounter++;
+              counter++;
+              currentSendingStatus = 'Successfully sent!';
+            });
+            // Only add delay after successful send - no need for artificial delay since we waited for real status
+            await Future.delayed(Duration(milliseconds: 500)); // Small delay to prevent overwhelming
+          } else {
+            throw Exception(smsResult.message);
+          }
         } catch (e) {
           print('Error sending SMS to ${contact.name}: $e');
           setState(() {
@@ -285,6 +306,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                   counter = 0;
                   sentCounter = 0;
                   skippedCounter = 0;
+                  currentSendingStatus = '';
+                  currentContactName = '';
                 });
               },
               icon: const Icon(Icons.bug_report),
@@ -387,6 +410,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                         contacts = [];
                         fileLabel = AppLocalizations.of(context).noFileSelected;
                         messageController.clear();
+                        currentSendingStatus = '';
+                        currentContactName = '';
                       });
                     },
                     icon: const Icon(Icons.clear_all),
@@ -423,11 +448,12 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                       )
                     : const Icon(Icons.send_rounded, size: 24),
                 label: Text(
-                  isSending ? '${AppLocalizations.of(context).sending} ($counter/${contacts.length})' : "${AppLocalizations.of(context).sendToAllContacts} (${contacts.length})",
+                  isSending ? '${AppLocalizations.of(context).sending} ($counter/${contacts.length})\n${currentContactName.isNotEmpty ? '$currentContactName: $currentSendingStatus' : currentSendingStatus}' : "${AppLocalizations.of(context).sendToAllContacts} (${contacts.length})",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
                   ),
+                  textAlign: TextAlign.center,
                 ),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: isSending ? Colors.grey : null,
