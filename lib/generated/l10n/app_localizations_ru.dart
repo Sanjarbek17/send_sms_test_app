@@ -492,4 +492,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get tipTestOwnNumber => 'Совет: Сначала протестируйте на своем номере';
+
+  @override
+  String get smsDelaySettings => 'Настройки Задержки SMS';
+
+  @override
+  String get delayBetweenMessages => 'Задержка Между Сообщениями';
+
+  @override
+  String get delayDescription =>
+      'Установите задержку между каждым SMS, чтобы не перегружать сеть';
+
+  @override
+  String get secondsShort => 'сек';
+
+  @override
+  String currentDelay(int seconds) {
+    return 'Текущая задержка: $seconds секунд';
+  }
+
+  @override
+  String get delayRange => 'Задержка должна быть от 1 до 30 секунд';
 }

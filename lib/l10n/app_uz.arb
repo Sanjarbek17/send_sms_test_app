@@ -147,5 +147,11 @@
     "whyThesePermissions": "Nima uchun bu ruxsatlar?",
     "smsApp": "SMS Yuboruvchi Ilovasi",
     "readyToSendTestMessage": "Test xabarini yuborishga tayyor",
-    "tipTestOwnNumber": "Maslahat: Avval o'z raqamingizga sinab ko'ring"
+    "tipTestOwnNumber": "Maslahat: Avval o'z raqamingizga sinab ko'ring",
+    "smsDelaySettings": "SMS Kechikish Sozlamalari",
+    "delayBetweenMessages": "Xabarlar Orasidagi Kechikish",
+    "delayDescription": "Tarmoqqa ortiqcha yuk tushmaslik uchun har bir SMS orasidagi kechikishni belgilang",
+    "secondsShort": "son",
+    "currentDelay": "Joriy kechikish: {seconds} soniya",
+    "delayRange": "Kechikish 1 dan 30 soniyagacha bo'lishi kerak"
 }

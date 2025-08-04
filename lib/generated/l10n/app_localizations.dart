@@ -987,6 +987,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Tip: Test with your own number first'**
   String get tipTestOwnNumber;
+
+  /// SMS delay settings card title
+  ///
+  /// In en, this message translates to:
+  /// **'SMS Delay Settings'**
+  String get smsDelaySettings;
+
+  /// Delay between messages label
+  ///
+  /// In en, this message translates to:
+  /// **'Delay Between Messages'**
+  String get delayBetweenMessages;
+
+  /// Description for SMS delay setting
+  ///
+  /// In en, this message translates to:
+  /// **'Set the delay between each SMS to avoid overwhelming the network'**
+  String get delayDescription;
+
+  /// Short form for seconds
+  ///
+  /// In en, this message translates to:
+  /// **'sec'**
+  String get secondsShort;
+
+  /// Current delay display
+  ///
+  /// In en, this message translates to:
+  /// **'Current delay: {seconds} seconds'**
+  String currentDelay(int seconds);
+
+  /// Validation message for delay range
+  ///
+  /// In en, this message translates to:
+  /// **'Delay must be between 1 and 30 seconds'**
+  String get delayRange;
 }
 
 class _AppLocalizationsDelegate

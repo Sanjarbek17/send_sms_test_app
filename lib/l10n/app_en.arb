@@ -619,5 +619,34 @@
     "tipTestOwnNumber": "Tip: Test with your own number first",
     "@tipTestOwnNumber": {
         "description": "Tip message for testing SMS"
+    },
+    "smsDelaySettings": "SMS Delay Settings",
+    "@smsDelaySettings": {
+        "description": "SMS delay settings card title"
+    },
+    "delayBetweenMessages": "Delay Between Messages",
+    "@delayBetweenMessages": {
+        "description": "Delay between messages label"
+    },
+    "delayDescription": "Set the delay between each SMS to avoid overwhelming the network",
+    "@delayDescription": {
+        "description": "Description for SMS delay setting"
+    },
+    "secondsShort": "sec",
+    "@secondsShort": {
+        "description": "Short form for seconds"
+    },
+    "currentDelay": "Current delay: {seconds} seconds",
+    "@currentDelay": {
+        "description": "Current delay display",
+        "placeholders": {
+            "seconds": {
+                "type": "int"
+            }
+        }
+    },
+    "delayRange": "Delay must be between 1 and 30 seconds",
+    "@delayRange": {
+        "description": "Validation message for delay range"
     }
 }

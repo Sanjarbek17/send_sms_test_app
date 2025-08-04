@@ -491,4 +491,25 @@ class AppLocalizationsUz extends AppLocalizations {
   @override
   String get tipTestOwnNumber =>
       'Maslahat: Avval o\'z raqamingizga sinab ko\'ring';
+
+  @override
+  String get smsDelaySettings => 'SMS Kechikish Sozlamalari';
+
+  @override
+  String get delayBetweenMessages => 'Xabarlar Orasidagi Kechikish';
+
+  @override
+  String get delayDescription =>
+      'Tarmoqqa ortiqcha yuk tushmaslik uchun har bir SMS orasidagi kechikishni belgilang';
+
+  @override
+  String get secondsShort => 'son';
+
+  @override
+  String currentDelay(int seconds) {
+    return 'Joriy kechikish: $seconds soniya';
+  }
+
+  @override
+  String get delayRange => 'Kechikish 1 dan 30 soniyagacha bo\'lishi kerak';
 }

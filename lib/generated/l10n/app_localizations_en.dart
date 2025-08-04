@@ -485,4 +485,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get tipTestOwnNumber => 'Tip: Test with your own number first';
+
+  @override
+  String get smsDelaySettings => 'SMS Delay Settings';
+
+  @override
+  String get delayBetweenMessages => 'Delay Between Messages';
+
+  @override
+  String get delayDescription =>
+      'Set the delay between each SMS to avoid overwhelming the network';
+
+  @override
+  String get secondsShort => 'sec';
+
+  @override
+  String currentDelay(int seconds) {
+    return 'Current delay: $seconds seconds';
+  }
+
+  @override
+  String get delayRange => 'Delay must be between 1 and 30 seconds';
 }

@@ -147,5 +147,11 @@
     "whyThesePermissions": "Зачем эти разрешения?",
     "smsApp": "SMS Отправитель",
     "readyToSendTestMessage": "Готов отправить тестовое сообщение",
-    "tipTestOwnNumber": "Совет: Сначала протестируйте на своем номере"
+    "tipTestOwnNumber": "Совет: Сначала протестируйте на своем номере",
+    "smsDelaySettings": "Настройки Задержки SMS",
+    "delayBetweenMessages": "Задержка Между Сообщениями",
+    "delayDescription": "Установите задержку между каждым SMS, чтобы не перегружать сеть",
+    "secondsShort": "сек",
+    "currentDelay": "Текущая задержка: {seconds} секунд",
+    "delayRange": "Задержка должна быть от 1 до 30 секунд"
 }

@@ -4,6 +4,7 @@ import '../widgets/sim_card_selector.dart';
 import '../widgets/animated_card.dart';
 import '../widgets/troubleshooting_dialog.dart';
 import '../widgets/language_selector.dart';
+import '../widgets/delay_settings_widget.dart';
 import '../services/sms_service.dart';
 import '../services/language_service.dart';
 
@@ -79,6 +80,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
               AnimatedCard(
                 delay: 300,
                 child: _buildSimCardCard(),
+              ),
+              const SizedBox(height: 16),
+
+              // SMS Delay Settings Card
+              AnimatedCard(
+                delay: 350,
+                child: _buildSmsDelayCard(),
               ),
               const SizedBox(height: 16),
 
@@ -228,6 +236,38 @@ class _SettingsScreenState extends State<SettingsScreen> {
             SimCardSelector(
               selectedSimSlot: widget.selectedSimSlot,
               onSimSelected: widget.onSimSelected,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSmsDelayCard() {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Icon(Icons.schedule, color: Theme.of(context).primaryColor),
+                const SizedBox(width: 8),
+                Text(
+                  AppLocalizations.of(context).smsDelaySettings,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 16),
+            DelaySettingsWidget(
+              onDelayChanged: () {
+                // Optional callback when delay is changed
+              },
             ),
           ],
         ),
