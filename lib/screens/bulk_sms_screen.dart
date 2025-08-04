@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/custom_sms_service.dart';
+import '../services/settings_service.dart';
 import '../widgets/file_picker_widget.dart';
 import '../widgets/contacts_list_widget.dart';
 import '../widgets/animated_card.dart';
@@ -127,7 +128,9 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               counter++;
               currentSendingStatus = 'Skipped - No phone number';
             });
-            await Future.delayed(Duration(milliseconds: 300)); // Brief pause to show status
+            
+            // Brief pause to show status, then continue without long delay for skipped contacts
+            await Future.delayed(Duration(milliseconds: 300));
             continue; // Skip this contact instead of throwing an error
           }
 
@@ -155,8 +158,21 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               counter++;
               currentSendingStatus = 'Successfully sent!';
             });
-            // Only add delay after successful send - no need for artificial delay since we waited for real status
-            await Future.delayed(Duration(milliseconds: 500)); // Small delay to prevent overwhelming
+            
+            // Get configured delay settings - user can set to 0 for no delay
+            final delaySeconds = await SettingsService.instance.getSmsDelaySeconds();
+            
+            if (delaySeconds > 0) {
+              // Show countdown only if there's actually a delay
+              setState(() {
+                currentSendingStatus = 'Waiting ${delaySeconds}s before next SMS...';
+              });
+              
+              await Future.delayed(Duration(seconds: delaySeconds));
+            } else {
+              // No delay - just a brief pause to show "Successfully sent!" status
+              await Future.delayed(Duration(milliseconds: 200));
+            }
           } else {
             throw Exception(smsResult.message);
           }

@@ -1,9 +1,12 @@
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shared_preferences/shared_  /// Validate delay value
+  static bool isValidDelay(int seconds) {
+    return seconds >= 0 && seconds <= 30;
+  }erences.dart';
 
 class SettingsService {
   static const String _smsDelayKey = 'sms_delay_seconds';
   static const String _selectedSimSlotKey = 'selected_sim_slot';
-  static const int _defaultDelaySeconds = 2;
+  static const int _defaultDelaySeconds = 1;
 
   static SettingsService? _instance;
 
@@ -27,8 +30,8 @@ class SettingsService {
   /// Set the SMS delay in seconds
   Future<bool> setSmsDelaySeconds(int seconds) async {
     try {
-      if (seconds < 1 || seconds > 30) {
-        throw ArgumentError('Delay must be between 1 and 30 seconds');
+      if (seconds < 0 || seconds > 30) {
+        throw ArgumentError('Delay must be between 0 and 30 seconds');
       }
       final prefs = await SharedPreferences.getInstance();
       return await prefs.setInt(_smsDelayKey, seconds);
