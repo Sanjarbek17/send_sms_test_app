@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/sms_service.dart';
 import '../widgets/animated_card.dart';
 import '../widgets/troubleshooting_dialog.dart';
+import '../generated/l10n/app_localizations.dart';
 import 'settings_screen.dart';
 import 'bulk_sms_screen.dart';
 import 'test_sms_screen.dart';
@@ -138,26 +139,26 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
           unselectedItemColor: Colors.grey[600],
           selectedLabelStyle: const TextStyle(fontWeight: FontWeight.bold),
           onTap: _onItemTapped,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home),
-              activeIcon: Icon(Icons.home_rounded),
-              label: 'Home',
+              icon: const Icon(Icons.home),
+              activeIcon: const Icon(Icons.home_rounded),
+              label: AppLocalizations.of(context).home,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.phone_android),
-              activeIcon: Icon(Icons.phone_android_rounded),
-              label: 'Test SMS',
+              icon: const Icon(Icons.phone_android),
+              activeIcon: const Icon(Icons.phone_android_rounded),
+              label: AppLocalizations.of(context).testSMS,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.group),
-              activeIcon: Icon(Icons.group_rounded),
-              label: 'Bulk SMS',
+              icon: const Icon(Icons.group),
+              activeIcon: const Icon(Icons.group_rounded),
+              label: AppLocalizations.of(context).bulkSMS,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.settings),
-              activeIcon: Icon(Icons.settings_rounded),
-              label: 'Settings',
+              icon: const Icon(Icons.settings),
+              activeIcon: const Icon(Icons.settings_rounded),
+              label: AppLocalizations.of(context).settings,
             ),
           ],
         ),
@@ -166,17 +167,18 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
   }
 
   String _getAppBarTitle() {
+    final l10n = AppLocalizations.of(context);
     switch (_selectedIndex) {
       case 0:
-        return 'SMS Sender Pro';
+        return l10n.appTitle;
       case 1:
-        return 'Test SMS';
+        return l10n.testSMS;
       case 2:
-        return 'Bulk SMS';
+        return l10n.bulkSMS;
       case 3:
-        return 'Settings';
+        return l10n.settings;
       default:
-        return 'SMS Sender Pro';
+        return l10n.appTitle;
     }
   }
 
@@ -247,9 +249,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
               color: Theme.of(context).primaryColor,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Welcome to SMS Sender Pro!',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context).welcome,
+              style: const TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
               ),
@@ -257,7 +259,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
             ),
             const SizedBox(height: 8),
             Text(
-              'Your professional SMS broadcasting solution. Use the tabs below to navigate between features.',
+              AppLocalizations.of(context).welcomeDescription,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],
@@ -294,7 +296,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isSmsAvailable ? 'SMS Service Ready' : 'SMS Service Unavailable',
+                    isSmsAvailable ? AppLocalizations.of(context).smsServiceReady : AppLocalizations.of(context).smsServiceUnavailable,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
@@ -302,7 +304,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                     ),
                   ),
                   Text(
-                    isSmsAvailable ? 'Your device is ready to send SMS messages' : 'Please check your SIM card and permissions',
+                    isSmsAvailable ? AppLocalizations.of(context).deviceReady : AppLocalizations.of(context).checkSimCard,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -315,7 +317,7 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
               IconButton(
                 onPressed: _checkSmsAvailability,
                 icon: Icon(Icons.refresh, color: Colors.orange[700]),
-                tooltip: 'Retry Check',
+                tooltip: AppLocalizations.of(context).retryCheck,
               ),
           ],
         ),
@@ -334,9 +336,9 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
               children: [
                 Icon(Icons.analytics, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                const Text(
-                  'Quick Access',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).quickActions,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -349,8 +351,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 Expanded(
                   child: _buildQuickAccessItem(
                     Icons.phone_android,
-                    'Test SMS',
-                    'Send a test message',
+                    AppLocalizations.of(context).testSMS,
+                    AppLocalizations.of(context).sendTestMessage,
                     Colors.green,
                     () => setState(() => _selectedIndex = 1),
                   ),
@@ -359,8 +361,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 Expanded(
                   child: _buildQuickAccessItem(
                     Icons.group,
-                    'Bulk SMS',
-                    'Send to multiple contacts',
+                    AppLocalizations.of(context).bulkSMS,
+                    AppLocalizations.of(context).sendToMultipleContacts,
                     Colors.blue,
                     () => setState(() => _selectedIndex = 2),
                   ),
@@ -373,8 +375,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 Expanded(
                   child: _buildQuickAccessItem(
                     Icons.settings,
-                    'Settings',
-                    'Configure your app',
+                    AppLocalizations.of(context).settings,
+                    AppLocalizations.of(context).configureAppSettings,
                     Colors.orange,
                     () => setState(() => _selectedIndex = 3),
                   ),
@@ -383,8 +385,8 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 Expanded(
                   child: _buildQuickAccessItem(
                     Icons.help_outline,
-                    'Help',
-                    'Get support',
+                    AppLocalizations.of(context).help,
+                    AppLocalizations.of(context).troubleshootingGuide,
                     Colors.purple,
                     () => TroubleshootingDialog.show(context),
                   ),

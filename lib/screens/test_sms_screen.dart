@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../services/sms_service.dart';
 import '../widgets/phone_input_widget.dart';
 import '../widgets/animated_card.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class TestSmsScreen extends StatefulWidget {
   final int? selectedSimSlot;
@@ -29,12 +30,12 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
 
   Future<void> _sendTestMessage() async {
     if (phoneController.text.trim().isEmpty) {
-      await _showErrorDialog("Please enter a phone number");
+      await _showErrorDialog(AppLocalizations.of(context).pleaseEnterPhoneNumber);
       return;
     }
 
     if (messageController.text.trim().isEmpty) {
-      await _showErrorDialog("Please enter a message");
+      await _showErrorDialog(AppLocalizations.of(context).pleaseEnterMessage);
       return;
     }
 
@@ -48,9 +49,9 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
         number: phoneController.text.trim(),
         simSlot: widget.selectedSimSlot,
       );
-      await _showSuccessDialog("Test message sent successfully!");
+      await _showSuccessDialog(AppLocalizations.of(context).testMessageSentSuccessfully);
     } catch (e) {
-      await _showErrorDialog("Failed to send test message: $e");
+      await _showErrorDialog(AppLocalizations.of(context).failedToSendTestMessage(e.toString()));
     } finally {
       setState(() {
         isSending = false;
@@ -70,7 +71,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
             children: [
               Icon(Icons.error, color: Colors.red[600]),
               const SizedBox(width: 8),
-              const Text("Error"),
+              Text(AppLocalizations.of(context).error),
             ],
           ),
           content: Text(
@@ -80,7 +81,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
+              child: Text(AppLocalizations.of(context).ok),
             ),
           ],
         );
@@ -100,7 +101,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
             children: [
               Icon(Icons.check_circle, color: Colors.green[600]),
               const SizedBox(width: 8),
-              const Text("Success"),
+              Text(AppLocalizations.of(context).success),
             ],
           ),
           content: Text(
@@ -111,7 +112,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
             TextButton.icon(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(Icons.check),
-              label: const Text("OK"),
+              label: Text(AppLocalizations.of(context).ok),
             )
           ],
         );
@@ -179,16 +180,16 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
               color: Theme.of(context).primaryColor,
             ),
             const SizedBox(height: 16),
-            const Text(
-              'Test SMS Functionality',
-              style: TextStyle(
+            Text(
+              AppLocalizations.of(context).testSMSFunctionality,
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
             const SizedBox(height: 8),
             Text(
-              'Send a test message to verify your SMS setup before bulk sending. This helps ensure your device, SIM card, and permissions are working correctly.',
+              AppLocalizations.of(context).testSMSDescription,
               style: TextStyle(
                 fontSize: 16,
                 color: Colors.grey[600],

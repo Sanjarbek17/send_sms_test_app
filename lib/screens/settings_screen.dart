@@ -3,7 +3,11 @@ import '../widgets/permission_status_widget.dart';
 import '../widgets/sim_card_selector.dart';
 import '../widgets/animated_card.dart';
 import '../widgets/troubleshooting_dialog.dart';
+import '../widgets/language_selector.dart';
 import '../services/sms_service.dart';
+import '../services/language_service.dart';
+
+import '../generated/l10n/app_localizations.dart';
 
 class SettingsScreen extends StatefulWidget {
   final int? selectedSimSlot;
@@ -50,6 +54,13 @@ class _SettingsScreenState extends State<SettingsScreen> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              // Language Selection Card
+              AnimatedCard(
+                delay: 50,
+                child: _buildLanguageCard(),
+              ),
+              const SizedBox(height: 16),
+
               // SMS Status Card
               AnimatedCard(
                 delay: 100,
@@ -83,6 +94,15 @@ class _SettingsScreenState extends State<SettingsScreen> {
     );
   }
 
+  Widget _buildLanguageCard() {
+    return LanguageSelector(
+      onLanguageChanged: (String languageCode) {
+        LanguageService().changeLanguage(languageCode);
+        setState(() {}); // Refresh to apply new language
+      },
+    );
+  }
+
   Widget _buildSmsStatusCard() {
     return Card(
       child: Padding(
@@ -94,9 +114,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
               children: [
                 Icon(Icons.sms, color: Theme.of(context).primaryColor),
                 const SizedBox(width: 8),
-                const Text(
-                  'SMS Service Status',
-                  style: TextStyle(
+                Text(
+                  AppLocalizations.of(context).smsServiceStatus,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
@@ -117,7 +137,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        isSmsAvailable ? 'SMS Ready' : 'SMS Not Available',
+                        isSmsAvailable ? AppLocalizations.of(context).smsReady : AppLocalizations.of(context).smsNotAvailable,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -125,7 +145,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                         ),
                       ),
                       Text(
-                        isSmsAvailable ? 'Your device is ready to send SMS messages' : 'Please check SIM card, permissions, and device SMS support',
+                        isSmsAvailable ? AppLocalizations.of(context).deviceReadyForSMS : AppLocalizations.of(context).checkSimCardPermissions,
                         style: TextStyle(
                           color: Colors.grey[600],
                           fontSize: 14,

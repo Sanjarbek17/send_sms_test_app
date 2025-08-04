@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import '../models/contact.dart';
 import '../services/sms_service.dart';
 import '../widgets/file_picker_widget.dart';
 import '../widgets/contacts_list_widget.dart';
 import '../widgets/animated_card.dart';
+import '../models/contact.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class BulkSmsScreen extends StatefulWidget {
   final int? selectedSimSlot;
@@ -83,12 +84,12 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
       setState(() {
         isSending = false;
       });
-      await _showSuccessDialog("Messages sent successfully to $counter contacts!");
+      await _showSuccessDialog(AppLocalizations.of(context).messagesSentSuccessfully(counter));
     } catch (e) {
       setState(() {
         isSending = false;
       });
-      await _showErrorDialog("Failed to send messages: $e");
+      await _showErrorDialog(AppLocalizations.of(context).failedToSendMessages(e.toString()));
     }
   }
 
@@ -104,7 +105,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             children: [
               Icon(Icons.error, color: Colors.red[600]),
               const SizedBox(width: 8),
-              const Text("Error"),
+              Text(AppLocalizations.of(context).error),
             ],
           ),
           content: Text(
@@ -114,7 +115,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text("OK"),
+              child: Text(AppLocalizations.of(context).ok),
             ),
           ],
         );
@@ -134,7 +135,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             children: [
               Icon(Icons.check_circle, color: Colors.green[600]),
               const SizedBox(width: 8),
-              const Text("Success"),
+              Text(AppLocalizations.of(context).success),
             ],
           ),
           content: Text(
@@ -145,7 +146,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             TextButton.icon(
               onPressed: () => Navigator.pop(context),
               icon: const Icon(Icons.check),
-              label: const Text("OK"),
+              label: Text(AppLocalizations.of(context).ok),
             )
           ],
         );

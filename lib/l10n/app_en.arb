@@ -1,0 +1,435 @@
+{
+    "@@locale": "en",
+    "appTitle": "SMS Sender Pro",
+    "@appTitle": {
+        "description": "The title of the application"
+    },
+    "welcome": "Welcome to SMS Sender Pro!",
+    "@welcome": {
+        "description": "Welcome message"
+    },
+    "welcomeDescription": "Your professional SMS broadcasting solution. Send messages to multiple contacts with ease.",
+    "@welcomeDescription": {
+        "description": "Welcome description"
+    },
+    "smsServiceReady": "SMS Service Ready",
+    "@smsServiceReady": {
+        "description": "SMS service ready status"
+    },
+    "smsServiceUnavailable": "SMS Service Unavailable",
+    "@smsServiceUnavailable": {
+        "description": "SMS service unavailable status"
+    },
+    "deviceReady": "Your device is ready to send SMS messages",
+    "@deviceReady": {
+        "description": "Device ready message"
+    },
+    "checkSimCard": "Please check your SIM card and permissions",
+    "@checkSimCard": {
+        "description": "Check SIM card message"
+    },
+    "retryCheck": "Retry Check",
+    "@retryCheck": {
+        "description": "Retry check button"
+    },
+    "quickActions": "Quick Actions",
+    "@quickActions": {
+        "description": "Quick actions section title"
+    },
+    "testSMS": "Test SMS",
+    "@testSMS": {
+        "description": "Test SMS button"
+    },
+    "sendTestMessage": "Send test message",
+    "@sendTestMessage": {
+        "description": "Send test message description"
+    },
+    "bulkSMS": "Bulk SMS",
+    "@bulkSMS": {
+        "description": "Bulk SMS button"
+    },
+    "sendToMultipleContacts": "Send to multiple contacts",
+    "@sendToMultipleContacts": {
+        "description": "Send to multiple contacts description"
+    },
+    "settings": "Settings",
+    "@settings": {
+        "description": "Settings button"
+    },
+    "configureAppSettings": "Configure app settings",
+    "@configureAppSettings": {
+        "description": "Configure app settings description"
+    },
+    "help": "Help",
+    "@help": {
+        "description": "Help button"
+    },
+    "troubleshootingGuide": "Troubleshooting guide",
+    "@troubleshootingGuide": {
+        "description": "Troubleshooting guide description"
+    },
+    "keyFeatures": "Key Features",
+    "@keyFeatures": {
+        "description": "Key features section title"
+    },
+    "bulkMessaging": "Bulk Messaging",
+    "@bulkMessaging": {
+        "description": "Bulk messaging feature"
+    },
+    "bulkMessagingDesc": "Send SMS to multiple contacts from CSV/Excel files",
+    "@bulkMessagingDesc": {
+        "description": "Bulk messaging description"
+    },
+    "securePrivate": "Secure & Private",
+    "@securePrivate": {
+        "description": "Secure and private feature"
+    },
+    "securePrivateDesc": "All messages are sent directly from your device",
+    "@securePrivateDesc": {
+        "description": "Secure and private description"
+    },
+    "dualSimSupport": "Dual SIM Support",
+    "@dualSimSupport": {
+        "description": "Dual SIM support feature"
+    },
+    "dualSimSupportDesc": "Choose which SIM card to use for sending",
+    "@dualSimSupportDesc": {
+        "description": "Dual SIM support description"
+    },
+    "progressTracking": "Progress Tracking",
+    "@progressTracking": {
+        "description": "Progress tracking feature"
+    },
+    "progressTrackingDesc": "Real-time progress monitoring during bulk sends",
+    "@progressTrackingDesc": {
+        "description": "Progress tracking description"
+    },
+    "home": "Home",
+    "@home": {
+        "description": "Home tab"
+    },
+    "testSMSFunctionality": "Test SMS Functionality",
+    "@testSMSFunctionality": {
+        "description": "Test SMS functionality title"
+    },
+    "testSMSDescription": "Send a test message to verify your SMS setup before bulk sending. This helps ensure your device, SIM card, and permissions are working correctly.",
+    "@testSMSDescription": {
+        "description": "Test SMS description"
+    },
+    "tipTestWithOwnNumber": "Tip: Test with your own number first",
+    "@tipTestWithOwnNumber": {
+        "description": "Tip for testing"
+    },
+    "phoneNumber": "Phone Number",
+    "@phoneNumber": {
+        "description": "Phone number label"
+    },
+    "testPhoneNumber": "Test Phone Number",
+    "@testPhoneNumber": {
+        "description": "Test phone number label"
+    },
+    "enterPhoneNumber": "Enter the phone number you want to test with (including country code)",
+    "@enterPhoneNumber": {
+        "description": "Enter phone number hint"
+    },
+    "testMessage": "Test Message",
+    "@testMessage": {
+        "description": "Test message label"
+    },
+    "enterTestMessage": "Enter test message",
+    "@enterTestMessage": {
+        "description": "Enter test message hint"
+    },
+    "testMessageHint": "Hello! This is a test message from SMS Sender Pro.",
+    "@testMessageHint": {
+        "description": "Test message hint text"
+    },
+    "writeTestMessage": "Write a short test message to verify SMS functionality",
+    "@writeTestMessage": {
+        "description": "Write test message description"
+    },
+    "clearAll": "Clear All",
+    "@clearAll": {
+        "description": "Clear all button"
+    },
+    "sendTestMessageBtn": "Send Test Message",
+    "@sendTestMessageBtn": {
+        "description": "Send test message button"
+    },
+    "sendingTest": "Sending Test...",
+    "@sendingTest": {
+        "description": "Sending test status"
+    },
+    "pleaseEnterPhoneNumber": "Please enter a phone number",
+    "@pleaseEnterPhoneNumber": {
+        "description": "Please enter phone number error"
+    },
+    "pleaseEnterMessage": "Please enter a message",
+    "@pleaseEnterMessage": {
+        "description": "Please enter message error"
+    },
+    "pleaseEnterTestMessage": "Please enter a test message",
+    "@pleaseEnterTestMessage": {
+        "description": "Please enter test message error"
+    },
+    "readyToSendTest": "Ready to send test message",
+    "@readyToSendTest": {
+        "description": "Ready to send test message status"
+    },
+    "selectContactFile": "Select Contact File",
+    "@selectContactFile": {
+        "description": "Select contact file title"
+    },
+    "contactsLoaded": "contacts loaded",
+    "@contactsLoaded": {
+        "description": "Contacts loaded message"
+    },
+    "readyToSendBulk": "Ready to send bulk messages",
+    "@readyToSendBulk": {
+        "description": "Ready to send bulk messages"
+    },
+    "messageContent": "Message Content",
+    "@messageContent": {
+        "description": "Message content title"
+    },
+    "enterYourMessage": "Enter your message",
+    "@enterYourMessage": {
+        "description": "Enter your message label"
+    },
+    "messageHint": "Type the message you want to send to all contacts...",
+    "@messageHint": {
+        "description": "Message hint text"
+    },
+    "helperText": "This message will be sent to all selected contacts",
+    "@helperText": {
+        "description": "Helper text for message"
+    },
+    "clearAllData": "Clear All Data",
+    "@clearAllData": {
+        "description": "Clear all data button"
+    },
+    "sendToAllContacts": "Send to All Contacts",
+    "@sendToAllContacts": {
+        "description": "Send to all contacts button"
+    },
+    "sending": "Sending...",
+    "@sending": {
+        "description": "Sending status"
+    },
+    "pleaseSelectFile": "Please select a contact file first",
+    "@pleaseSelectFile": {
+        "description": "Please select file error"
+    },
+    "pleaseEnterMessageToSend": "Please enter a message to send",
+    "@pleaseEnterMessageToSend": {
+        "description": "Please enter message to send error"
+    },
+    "readyToSendToContacts": "Ready to send to {count} contacts",
+    "@readyToSendToContacts": {
+        "description": "Ready to send to contacts status",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "sendingProgress": "Sending Progress",
+    "@sendingProgress": {
+        "description": "Sending progress title"
+    },
+    "messagesSent": "{sent} of {total} messages sent",
+    "@messagesSent": {
+        "description": "Messages sent progress",
+        "placeholders": {
+            "sent": {
+                "type": "int"
+            },
+            "total": {
+                "type": "int"
+            }
+        }
+    },
+    "smsServiceStatus": "SMS Service Status",
+    "@smsServiceStatus": {
+        "description": "SMS service status title"
+    },
+    "smsReady": "SMS Ready",
+    "@smsReady": {
+        "description": "SMS ready status"
+    },
+    "smsNotAvailable": "SMS Not Available",
+    "@smsNotAvailable": {
+        "description": "SMS not available status"
+    },
+    "deviceReadyForSMS": "Your device is ready to send SMS messages",
+    "@deviceReadyForSMS": {
+        "description": "Device ready for SMS message"
+    },
+    "checkSimCardPermissions": "Please check SIM card, permissions, and device SMS support",
+    "@checkSimCardPermissions": {
+        "description": "Check SIM card permissions message"
+    },
+    "permissions": "Permissions",
+    "@permissions": {
+        "description": "Permissions title"
+    },
+    "simCardSelection": "SIM Card Selection",
+    "@simCardSelection": {
+        "description": "SIM card selection title"
+    },
+    "appInformation": "App Information",
+    "@appInformation": {
+        "description": "App information title"
+    },
+    "version": "Version",
+    "@version": {
+        "description": "Version label"
+    },
+    "developer": "Developer",
+    "@developer": {
+        "description": "Developer label"
+    },
+    "platform": "Platform",
+    "@platform": {
+        "description": "Platform label"
+    },
+    "smsTeam": "SMS Sender Pro Team",
+    "@smsTeam": {
+        "description": "SMS team name"
+    },
+    "androidIOS": "Android & iOS",
+    "@androidIOS": {
+        "description": "Android and iOS platforms"
+    },
+    "requestPermissions": "Request Permissions",
+    "@requestPermissions": {
+        "description": "Request permissions button"
+    },
+    "whyPermissions": "Why these permissions?",
+    "@whyPermissions": {
+        "description": "Why permissions tooltip"
+    },
+    "granted": "Granted",
+    "@granted": {
+        "description": "Permission granted status"
+    },
+    "denied": "Denied",
+    "@denied": {
+        "description": "Permission denied status"
+    },
+    "permanentlyDenied": "Permanently Denied",
+    "@permanentlyDenied": {
+        "description": "Permission permanently denied status"
+    },
+    "restricted": "Restricted",
+    "@restricted": {
+        "description": "Permission restricted status"
+    },
+    "unknown": "Unknown",
+    "@unknown": {
+        "description": "Permission unknown status"
+    },
+    "smsTroubleshooting": "SMS Troubleshooting",
+    "@smsTroubleshooting": {
+        "description": "SMS troubleshooting title"
+    },
+    "troubleshootingIntro": "If you're having trouble sending SMS:",
+    "@troubleshootingIntro": {
+        "description": "Troubleshooting intro text"
+    },
+    "simCardIssue": "SIM Card",
+    "@simCardIssue": {
+        "description": "SIM card issue title"
+    },
+    "simCardDesc": "Make sure your device has an active SIM card inserted and it's properly recognized.",
+    "@simCardDesc": {
+        "description": "SIM card issue description"
+    },
+    "permissionsIssue": "Permissions",
+    "@permissionsIssue": {
+        "description": "Permissions issue title"
+    },
+    "permissionsDesc": "Grant SMS permissions to this app in your device settings.",
+    "@permissionsDesc": {
+        "description": "Permissions issue description"
+    },
+    "networkIssue": "Network",
+    "@networkIssue": {
+        "description": "Network issue title"
+    },
+    "networkDesc": "Ensure you have cellular network coverage.",
+    "@networkDesc": {
+        "description": "Network issue description"
+    },
+    "phoneNumberFormat": "Phone Number",
+    "@phoneNumberFormat": {
+        "description": "Phone number format issue title"
+    },
+    "phoneNumberDesc": "Verify the phone number format is correct (include country code if needed).",
+    "@phoneNumberDesc": {
+        "description": "Phone number format description"
+    },
+    "deviceSupport": "Device Support",
+    "@deviceSupport": {
+        "description": "Device support issue title"
+    },
+    "deviceSupportDesc": "Some emulators or devices may not support SMS functionality.",
+    "@deviceSupportDesc": {
+        "description": "Device support description"
+    },
+    "commonErrorCodes": "Common Error Codes:",
+    "@commonErrorCodes": {
+        "description": "Common error codes title"
+    },
+    "close": "Close",
+    "@close": {
+        "description": "Close button"
+    },
+    "error": "Error",
+    "@error": {
+        "description": "Error title"
+    },
+    "success": "Success",
+    "@success": {
+        "description": "Success title"
+    },
+    "ok": "OK",
+    "@ok": {
+        "description": "OK button"
+    },
+    "testMessageSentSuccessfully": "Test message sent successfully!",
+    "@testMessageSentSuccessfully": {
+        "description": "Test message sent successfully"
+    },
+    "failedToSendTestMessage": "Failed to send test message: {error}",
+    "@failedToSendTestMessage": {
+        "description": "Failed to send test message",
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "messagesSentSuccessfully": "Messages sent successfully to {count} contacts!",
+    "@messagesSentSuccessfully": {
+        "description": "Messages sent successfully",
+        "placeholders": {
+            "count": {
+                "type": "int"
+            }
+        }
+    },
+    "failedToSendMessages": "Failed to send messages: {error}",
+    "@failedToSendMessages": {
+        "description": "Failed to send messages",
+        "placeholders": {
+            "error": {
+                "type": "String"
+            }
+        }
+    },
+    "noFileSelected": "No file selected",
+    "@noFileSelected": {
+        "description": "No file selected status"
+    }
+}
