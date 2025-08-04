@@ -705,6 +705,276 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No file selected'**
   String get noFileSelected;
+
+  /// File selected status
+  ///
+  /// In en, this message translates to:
+  /// **'File Selected'**
+  String get fileSelected;
+
+  /// Choose CSV or Excel file description
+  ///
+  /// In en, this message translates to:
+  /// **'Choose a CSV or Excel file with contacts'**
+  String get chooseCSVExcelFile;
+
+  /// File selected successfully message
+  ///
+  /// In en, this message translates to:
+  /// **'File selected successfully'**
+  String get fileSelectedSuccessfully;
+
+  /// Change file button
+  ///
+  /// In en, this message translates to:
+  /// **'Change File'**
+  String get changeFile;
+
+  /// Pick file button
+  ///
+  /// In en, this message translates to:
+  /// **'Pick File'**
+  String get pickFile;
+
+  /// Configure column headers dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Configure Column Headers'**
+  String get configureColumnHeaders;
+
+  /// Column headers instruction text
+  ///
+  /// In en, this message translates to:
+  /// **'Specify the column header names in your file:'**
+  String get specifyColumnHeaders;
+
+  /// Name column header label
+  ///
+  /// In en, this message translates to:
+  /// **'Name Column Header'**
+  String get nameColumnHeader;
+
+  /// Name column header hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., name, full_name, customer'**
+  String get nameColumnHint;
+
+  /// Phone column header label
+  ///
+  /// In en, this message translates to:
+  /// **'Phone Column Header'**
+  String get phoneColumnHeader;
+
+  /// Phone column header hint
+  ///
+  /// In en, this message translates to:
+  /// **'e.g., phone, number, mobile'**
+  String get phoneColumnHint;
+
+  /// Column search help note
+  ///
+  /// In en, this message translates to:
+  /// **'Note: The search is case-insensitive and matches partial text.'**
+  String get columnSearchNote;
+
+  /// Cancel button
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get cancel;
+
+  /// Continue button
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get continueButton;
+
+  /// Troubleshooting SIM card step
+  ///
+  /// In en, this message translates to:
+  /// **'1. SIM Card'**
+  String get troubleshootingSimCard;
+
+  /// SIM card troubleshooting description
+  ///
+  /// In en, this message translates to:
+  /// **'Make sure your device has an active SIM card inserted and it\'s properly recognized.'**
+  String get troubleshootingSimCardDesc;
+
+  /// Troubleshooting permissions step
+  ///
+  /// In en, this message translates to:
+  /// **'2. Permissions'**
+  String get troubleshootingPermissions;
+
+  /// Permissions troubleshooting description
+  ///
+  /// In en, this message translates to:
+  /// **'Grant SMS permissions to this app in your device settings.'**
+  String get troubleshootingPermissionsDesc;
+
+  /// Troubleshooting network step
+  ///
+  /// In en, this message translates to:
+  /// **'3. Network'**
+  String get troubleshootingNetwork;
+
+  /// Network troubleshooting description
+  ///
+  /// In en, this message translates to:
+  /// **'Ensure you have cellular network coverage.'**
+  String get troubleshootingNetworkDesc;
+
+  /// Troubleshooting phone number step
+  ///
+  /// In en, this message translates to:
+  /// **'4. Phone Number'**
+  String get troubleshootingPhoneNumber;
+
+  /// Phone number troubleshooting description
+  ///
+  /// In en, this message translates to:
+  /// **'Verify the phone number format is correct (include country code if needed).'**
+  String get troubleshootingPhoneNumberDesc;
+
+  /// Troubleshooting device support step
+  ///
+  /// In en, this message translates to:
+  /// **'5. Device Support'**
+  String get troubleshootingDeviceSupport;
+
+  /// Device support troubleshooting description
+  ///
+  /// In en, this message translates to:
+  /// **'Some emulators or devices may not support SMS functionality.'**
+  String get troubleshootingDeviceSupportDesc;
+
+  /// No SIM error code
+  ///
+  /// In en, this message translates to:
+  /// **'NO_SIM'**
+  String get errorNoSim;
+
+  /// No SIM error description
+  ///
+  /// In en, this message translates to:
+  /// **'No active SIM card detected'**
+  String get errorNoSimDesc;
+
+  /// Permission denied error code
+  ///
+  /// In en, this message translates to:
+  /// **'PERMISSION_DENIED'**
+  String get errorPermissionDenied;
+
+  /// Permission denied error description
+  ///
+  /// In en, this message translates to:
+  /// **'SMS permission not granted'**
+  String get errorPermissionDeniedDesc;
+
+  /// Network error code
+  ///
+  /// In en, this message translates to:
+  /// **'NETWORK_ERROR'**
+  String get errorNetworkError;
+
+  /// Network error description
+  ///
+  /// In en, this message translates to:
+  /// **'Network connectivity issue'**
+  String get errorNetworkErrorDesc;
+
+  /// Invalid number error code
+  ///
+  /// In en, this message translates to:
+  /// **'INVALID_NUMBER'**
+  String get errorInvalidNumber;
+
+  /// Invalid number error description
+  ///
+  /// In en, this message translates to:
+  /// **'Phone number format error'**
+  String get errorInvalidNumberDesc;
+
+  /// Permissions required dialog title
+  ///
+  /// In en, this message translates to:
+  /// **'Permissions Required'**
+  String get permissionsRequired;
+
+  /// Permission explanation text
+  ///
+  /// In en, this message translates to:
+  /// **'This app requires the following permissions to function properly:'**
+  String get permissionExplanation;
+
+  /// SMS permission title
+  ///
+  /// In en, this message translates to:
+  /// **'SMS Permission'**
+  String get smsPermission;
+
+  /// SMS permission description
+  ///
+  /// In en, this message translates to:
+  /// **'Required to send text messages'**
+  String get smsPermissionDesc;
+
+  /// Phone state permission title
+  ///
+  /// In en, this message translates to:
+  /// **'Phone State Permission'**
+  String get phoneStatePermission;
+
+  /// Phone state permission description
+  ///
+  /// In en, this message translates to:
+  /// **'Required to detect SIM cards and support dual SIM functionality'**
+  String get phoneStatePermissionDesc;
+
+  /// Privacy note for permissions
+  ///
+  /// In en, this message translates to:
+  /// **'Note: These permissions are only used for SMS functionality and your privacy is protected.'**
+  String get privacyNote;
+
+  /// Checking permissions loading text
+  ///
+  /// In en, this message translates to:
+  /// **'Checking permissions...'**
+  String get checkingPermissions;
+
+  /// Permission status widget title
+  ///
+  /// In en, this message translates to:
+  /// **'Permission Status'**
+  String get permissionStatus;
+
+  /// Why permissions tooltip
+  ///
+  /// In en, this message translates to:
+  /// **'Why these permissions?'**
+  String get whyThesePermissions;
+
+  /// App title for main.dart
+  ///
+  /// In en, this message translates to:
+  /// **'SMS Sender App'**
+  String get smsApp;
+
+  /// Default name header for file picker
+  ///
+  /// In en, this message translates to:
+  /// **'name'**
+  String get defaultNameHeader;
+
+  /// Default phone header for file picker
+  ///
+  /// In en, this message translates to:
+  /// **'phone'**
+  String get defaultPhoneHeader;
 }
 
 class _AppLocalizationsDelegate

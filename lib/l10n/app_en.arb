@@ -431,5 +431,185 @@
     "noFileSelected": "No file selected",
     "@noFileSelected": {
         "description": "No file selected status"
+    },
+    "fileSelected": "File Selected",
+    "@fileSelected": {
+        "description": "File selected status"
+    },
+    "chooseCSVExcelFile": "Choose a CSV or Excel file with contacts",
+    "@chooseCSVExcelFile": {
+        "description": "Choose CSV or Excel file description"
+    },
+    "fileSelectedSuccessfully": "File selected successfully",
+    "@fileSelectedSuccessfully": {
+        "description": "File selected successfully message"
+    },
+    "changeFile": "Change File",
+    "@changeFile": {
+        "description": "Change file button"
+    },
+    "pickFile": "Pick File",
+    "@pickFile": {
+        "description": "Pick file button"
+    },
+    "configureColumnHeaders": "Configure Column Headers",
+    "@configureColumnHeaders": {
+        "description": "Configure column headers dialog title"
+    },
+    "specifyColumnHeaders": "Specify the column header names in your file:",
+    "@specifyColumnHeaders": {
+        "description": "Column headers instruction text"
+    },
+    "nameColumnHeader": "Name Column Header",
+    "@nameColumnHeader": {
+        "description": "Name column header label"
+    },
+    "nameColumnHint": "e.g., name, full_name, customer",
+    "@nameColumnHint": {
+        "description": "Name column header hint"
+    },
+    "phoneColumnHeader": "Phone Column Header",
+    "@phoneColumnHeader": {
+        "description": "Phone column header label"
+    },
+    "phoneColumnHint": "e.g., phone, number, mobile",
+    "@phoneColumnHint": {
+        "description": "Phone column header hint"
+    },
+    "columnSearchNote": "Note: The search is case-insensitive and matches partial text.",
+    "@columnSearchNote": {
+        "description": "Column search help note"
+    },
+    "cancel": "Cancel",
+    "@cancel": {
+        "description": "Cancel button"
+    },
+    "continueButton": "Continue",
+    "@continueButton": {
+        "description": "Continue button"
+    },
+    "troubleshootingSimCard": "1. SIM Card",
+    "@troubleshootingSimCard": {
+        "description": "Troubleshooting SIM card step"
+    },
+    "troubleshootingSimCardDesc": "Make sure your device has an active SIM card inserted and it's properly recognized.",
+    "@troubleshootingSimCardDesc": {
+        "description": "SIM card troubleshooting description"
+    },
+    "troubleshootingPermissions": "2. Permissions",
+    "@troubleshootingPermissions": {
+        "description": "Troubleshooting permissions step"
+    },
+    "troubleshootingPermissionsDesc": "Grant SMS permissions to this app in your device settings.",
+    "@troubleshootingPermissionsDesc": {
+        "description": "Permissions troubleshooting description"
+    },
+    "troubleshootingNetwork": "3. Network",
+    "@troubleshootingNetwork": {
+        "description": "Troubleshooting network step"
+    },
+    "troubleshootingNetworkDesc": "Ensure you have cellular network coverage.",
+    "@troubleshootingNetworkDesc": {
+        "description": "Network troubleshooting description"
+    },
+    "troubleshootingPhoneNumber": "4. Phone Number",
+    "@troubleshootingPhoneNumber": {
+        "description": "Troubleshooting phone number step"
+    },
+    "troubleshootingPhoneNumberDesc": "Verify the phone number format is correct (include country code if needed).",
+    "@troubleshootingPhoneNumberDesc": {
+        "description": "Phone number troubleshooting description"
+    },
+    "troubleshootingDeviceSupport": "5. Device Support",
+    "@troubleshootingDeviceSupport": {
+        "description": "Troubleshooting device support step"
+    },
+    "troubleshootingDeviceSupportDesc": "Some emulators or devices may not support SMS functionality.",
+    "@troubleshootingDeviceSupportDesc": {
+        "description": "Device support troubleshooting description"
+    },
+    "errorNoSim": "NO_SIM",
+    "@errorNoSim": {
+        "description": "No SIM error code"
+    },
+    "errorNoSimDesc": "No active SIM card detected",
+    "@errorNoSimDesc": {
+        "description": "No SIM error description"
+    },
+    "errorPermissionDenied": "PERMISSION_DENIED",
+    "@errorPermissionDenied": {
+        "description": "Permission denied error code"
+    },
+    "errorPermissionDeniedDesc": "SMS permission not granted",
+    "@errorPermissionDeniedDesc": {
+        "description": "Permission denied error description"
+    },
+    "errorNetworkError": "NETWORK_ERROR",
+    "@errorNetworkError": {
+        "description": "Network error code"
+    },
+    "errorNetworkErrorDesc": "Network connectivity issue",
+    "@errorNetworkErrorDesc": {
+        "description": "Network error description"
+    },
+    "errorInvalidNumber": "INVALID_NUMBER",
+    "@errorInvalidNumber": {
+        "description": "Invalid number error code"
+    },
+    "errorInvalidNumberDesc": "Phone number format error",
+    "@errorInvalidNumberDesc": {
+        "description": "Invalid number error description"
+    },
+    "permissionsRequired": "Permissions Required",
+    "@permissionsRequired": {
+        "description": "Permissions required dialog title"
+    },
+    "permissionExplanation": "This app requires the following permissions to function properly:",
+    "@permissionExplanation": {
+        "description": "Permission explanation text"
+    },
+    "smsPermission": "SMS Permission",
+    "@smsPermission": {
+        "description": "SMS permission title"
+    },
+    "smsPermissionDesc": "Required to send text messages",
+    "@smsPermissionDesc": {
+        "description": "SMS permission description"
+    },
+    "phoneStatePermission": "Phone State Permission",
+    "@phoneStatePermission": {
+        "description": "Phone state permission title"
+    },
+    "phoneStatePermissionDesc": "Required to detect SIM cards and support dual SIM functionality",
+    "@phoneStatePermissionDesc": {
+        "description": "Phone state permission description"
+    },
+    "privacyNote": "Note: These permissions are only used for SMS functionality and your privacy is protected.",
+    "@privacyNote": {
+        "description": "Privacy note for permissions"
+    },
+    "checkingPermissions": "Checking permissions...",
+    "@checkingPermissions": {
+        "description": "Checking permissions loading text"
+    },
+    "permissionStatus": "Permission Status",
+    "@permissionStatus": {
+        "description": "Permission status widget title"
+    },
+    "whyThesePermissions": "Why these permissions?",
+    "@whyThesePermissions": {
+        "description": "Why permissions tooltip"
+    },
+    "smsApp": "SMS Sender App",
+    "@smsApp": {
+        "description": "App title for main.dart"
+    },
+    "defaultNameHeader": "name",
+    "@defaultNameHeader": {
+        "description": "Default name header for file picker"
+    },
+    "defaultPhoneHeader": "phone",
+    "@defaultPhoneHeader": {
+        "description": "Default phone header for file picker"
     }
 }

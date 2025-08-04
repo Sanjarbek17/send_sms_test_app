@@ -19,10 +19,12 @@ class SmsService {
         final phoneGranted = permissions[Permission.phone]?.isGranted ?? false;
 
         if (!smsGranted) {
-          throw Exception('SMS permission not granted. Please allow SMS permission in settings.');
+          throw Exception(
+              'SMS permission not granted. Please allow SMS permission in settings.');
         }
         if (!phoneGranted) {
-          throw Exception('Phone permission not granted. This is required for SIM card detection.');
+          throw Exception(
+              'Phone permission not granted. This is required for SIM card detection.');
         }
       }
 
@@ -44,13 +46,17 @@ class SmsService {
     } on PlatformException catch (e) {
       switch (e.code) {
         case 'NO_SIM':
-          throw Exception('No active SIM card found. Please insert a SIM card and try again.');
+          throw Exception(
+              'No active SIM card found. Please insert a SIM card and try again.');
         case 'PERMISSION_DENIED':
-          throw Exception('SMS permission denied. Please grant SMS permission in settings.');
+          throw Exception(
+              'SMS permission denied. Please grant SMS permission in settings.');
         case 'NETWORK_ERROR':
-          throw Exception('Network error. Please check your mobile network connection.');
+          throw Exception(
+              'Network error. Please check your mobile network connection.');
         case 'INVALID_NUMBER':
-          throw Exception('Invalid phone number format. Please check the number and try again.');
+          throw Exception(
+              'Invalid phone number format. Please check the number and try again.');
         default:
           throw Exception('Failed to send SMS: ${e.message ?? e.code}');
       }

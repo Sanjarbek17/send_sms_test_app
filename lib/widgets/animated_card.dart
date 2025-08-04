@@ -14,7 +14,8 @@ class AnimatedCard extends StatefulWidget {
   State<AnimatedCard> createState() => _AnimatedCardState();
 }
 
-class _AnimatedCardState extends State<AnimatedCard> with TickerProviderStateMixin {
+class _AnimatedCardState extends State<AnimatedCard>
+    with TickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _slideAnimation;
   late Animation<double> _fadeAnimation;

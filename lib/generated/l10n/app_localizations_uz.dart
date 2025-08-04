@@ -338,4 +338,150 @@ class AppLocalizationsUz extends AppLocalizations {
 
   @override
   String get noFileSelected => 'Hech qanday fayl tanlanmagan';
+
+  @override
+  String get fileSelected => 'Fayl Tanlandi';
+
+  @override
+  String get chooseCSVExcelFile =>
+      'Kontaktlar bilan CSV yoki Excel faylini tanlang';
+
+  @override
+  String get fileSelectedSuccessfully => 'Fayl muvaffaqiyatli tanlandi';
+
+  @override
+  String get changeFile => 'Faylni O\'zgartirish';
+
+  @override
+  String get pickFile => 'Fayl Tanlash';
+
+  @override
+  String get configureColumnHeaders => 'Ustun Sarlavhalarini Sozlash';
+
+  @override
+  String get specifyColumnHeaders =>
+      'Faylingizda ustun sarlavhasi nomlarini belgilang:';
+
+  @override
+  String get nameColumnHeader => 'Ism Ustuni Sarlavhasi';
+
+  @override
+  String get nameColumnHint => 'masalan, ism, toliq_ism, mijoz';
+
+  @override
+  String get phoneColumnHeader => 'Telefon Ustuni Sarlavhasi';
+
+  @override
+  String get phoneColumnHint => 'masalan, telefon, raqam, mobil';
+
+  @override
+  String get columnSearchNote =>
+      'Eslatma: Qidiruv katta-kichik harflarni farqlamaydi va qisman matnni moslashtiradi.';
+
+  @override
+  String get cancel => 'Bekor Qilish';
+
+  @override
+  String get continueButton => 'Davom Etish';
+
+  @override
+  String get troubleshootingSimCard => '1. SIM Karta';
+
+  @override
+  String get troubleshootingSimCardDesc =>
+      'Qurilmangizda faol SIM karta kiritilganligini va u to\'g\'ri tanilganligini tekshiring.';
+
+  @override
+  String get troubleshootingPermissions => '2. Ruxsatlar';
+
+  @override
+  String get troubleshootingPermissionsDesc =>
+      'Qurilma sozlamalarida bu ilovaga SMS ruxsatlarini bering.';
+
+  @override
+  String get troubleshootingNetwork => '3. Tarmoq';
+
+  @override
+  String get troubleshootingNetworkDesc =>
+      'Uyali tarmoq qamrovi borligini tekshiring.';
+
+  @override
+  String get troubleshootingPhoneNumber => '4. Telefon Raqami';
+
+  @override
+  String get troubleshootingPhoneNumberDesc =>
+      'Telefon raqami formati to\'g\'riligini tekshiring (kerak bo\'lsa mamlakat kodini qo\'shing).';
+
+  @override
+  String get troubleshootingDeviceSupport => '5. Qurilma Qo\'llab-quvvatlash';
+
+  @override
+  String get troubleshootingDeviceSupportDesc =>
+      'Ba\'zi emulyatorlar yoki qurilmalar SMS funksiyasini qo\'llab-quvvatlamaydi.';
+
+  @override
+  String get errorNoSim => 'NO_SIM';
+
+  @override
+  String get errorNoSimDesc => 'Faol SIM karta aniqlanmadi';
+
+  @override
+  String get errorPermissionDenied => 'PERMISSION_DENIED';
+
+  @override
+  String get errorPermissionDeniedDesc => 'SMS ruxsati berilmagan';
+
+  @override
+  String get errorNetworkError => 'NETWORK_ERROR';
+
+  @override
+  String get errorNetworkErrorDesc => 'Tarmoq ulanish muammosi';
+
+  @override
+  String get errorInvalidNumber => 'INVALID_NUMBER';
+
+  @override
+  String get errorInvalidNumberDesc => 'Telefon raqami format xatosi';
+
+  @override
+  String get permissionsRequired => 'Ruxsatlar Talab Qilinadi';
+
+  @override
+  String get permissionExplanation =>
+      'Bu ilova to\'g\'ri ishlashi uchun quyidagi ruxsatlarni talab qiladi:';
+
+  @override
+  String get smsPermission => 'SMS Ruxsati';
+
+  @override
+  String get smsPermissionDesc => 'Matnli xabarlar yuborish uchun kerak';
+
+  @override
+  String get phoneStatePermission => 'Telefon Holati Ruxsati';
+
+  @override
+  String get phoneStatePermissionDesc =>
+      'SIM kartalarni aniqlash va ikki SIM funksiyasini qo\'llab-quvvatlash uchun kerak';
+
+  @override
+  String get privacyNote =>
+      'Eslatma: Bu ruxsatlar faqat SMS funksiyasi uchun ishlatiladi va sizning shaxsiy ma\'lumotlaringiz himoyalangan.';
+
+  @override
+  String get checkingPermissions => 'Ruxsatlar tekshirilmoqda...';
+
+  @override
+  String get permissionStatus => 'Ruxsat Holati';
+
+  @override
+  String get whyThesePermissions => 'Nima uchun bu ruxsatlar?';
+
+  @override
+  String get smsApp => 'SMS Yuboruvchi Ilovasi';
+
+  @override
+  String get defaultNameHeader => 'ism';
+
+  @override
+  String get defaultPhoneHeader => 'telefon';
 }

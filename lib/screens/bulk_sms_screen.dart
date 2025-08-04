@@ -49,7 +49,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
     }
 
     if (messageController.text.trim().isEmpty) {
-      await _showErrorDialog(AppLocalizations.of(context).pleaseEnterMessageToSend);
+      await _showErrorDialog(
+          AppLocalizations.of(context).pleaseEnterMessageToSend);
       return;
     }
 
@@ -67,7 +68,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             number: contact.phone.trim(),
             simSlot: widget.selectedSimSlot,
           );
-          await Future.delayed(const Duration(seconds: 2)); // Reduced delay for demo
+          await Future.delayed(
+              const Duration(seconds: 2)); // Reduced delay for demo
           setState(() {
             sentContacts.add(contact);
             counter++;
@@ -84,12 +86,14 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
       setState(() {
         isSending = false;
       });
-      await _showSuccessDialog(AppLocalizations.of(context).messagesSentSuccessfully(counter));
+      await _showSuccessDialog(
+          AppLocalizations.of(context).messagesSentSuccessfully(counter));
     } catch (e) {
       setState(() {
         isSending = false;
       });
-      await _showErrorDialog(AppLocalizations.of(context).failedToSendMessages(e.toString()));
+      await _showErrorDialog(
+          AppLocalizations.of(context).failedToSendMessages(e.toString()));
     }
   }
 
@@ -345,19 +349,26 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               width: double.infinity,
               height: 60,
               child: ElevatedButton.icon(
-                onPressed: (isSending || contacts.isEmpty || messageController.text.trim().isEmpty) ? null : _sendMessages,
+                onPressed: (isSending ||
+                        contacts.isEmpty ||
+                        messageController.text.trim().isEmpty)
+                    ? null
+                    : _sendMessages,
                 icon: isSending
                     ? const SizedBox(
                         width: 20,
                         height: 20,
                         child: CircularProgressIndicator(
                           strokeWidth: 2,
-                          valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.white),
                         ),
                       )
                     : const Icon(Icons.send_rounded, size: 24),
                 label: Text(
-                  isSending ? '${AppLocalizations.of(context).sending} ($counter/${contacts.length})' : "${AppLocalizations.of(context).sendToAllContacts} (${contacts.length})",
+                  isSending
+                      ? '${AppLocalizations.of(context).sending} ($counter/${contacts.length})'
+                      : "${AppLocalizations.of(context).sendToAllContacts} (${contacts.length})",
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -390,7 +401,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               )
             else
               Text(
-                AppLocalizations.of(context).readyToSendToContacts(contacts.length),
+                AppLocalizations.of(context)
+                    .readyToSendToContacts(contacts.length),
                 style: TextStyle(
                   color: Colors.green[600],
                   fontSize: 14,
@@ -435,7 +447,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    AppLocalizations.of(context).messagesSent(counter, contacts.length),
+                    AppLocalizations.of(context)
+                        .messagesSent(counter, contacts.length),
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,
@@ -453,7 +466,8 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               ),
               const SizedBox(height: 16),
             ],
-            if (sentContacts.isNotEmpty) ContactsListWidget(sentContacts: sentContacts),
+            if (sentContacts.isNotEmpty)
+              ContactsListWidget(sentContacts: sentContacts),
           ],
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../models/contact.dart';
 import '../services/file_service.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class FilePickerWidget extends StatelessWidget {
   final String label;
@@ -14,7 +15,7 @@ class FilePickerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool hasFile = label != "No file selected";
+    final bool hasFile = label != AppLocalizations.of(context).noFileSelected;
 
     return Container(
       decoration: BoxDecoration(
@@ -42,7 +43,7 @@ class FilePickerWidget extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        hasFile ? 'File Selected' : 'Select Contact File',
+                        hasFile ? AppLocalizations.of(context).fileSelected : AppLocalizations.of(context).selectContactFile,
                         style: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
@@ -50,7 +51,7 @@ class FilePickerWidget extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        hasFile ? label : 'Choose a CSV or Excel file with contacts',
+                        hasFile ? label : AppLocalizations.of(context).chooseCSVExcelFile,
                         style: TextStyle(
                           fontSize: 14,
                           color: hasFile ? Colors.green[600] : Colors.grey[600],
@@ -74,12 +75,12 @@ class FilePickerWidget extends StatelessWidget {
                       phoneHeader: headerNames['phoneHeader']!,
                     );
                     if (contacts != null) {
-                      onFilePicked(contacts, "File selected successfully");
+                      onFilePicked(contacts, AppLocalizations.of(context).fileSelectedSuccessfully);
                     }
                   }
                 },
                 icon: const Icon(Icons.folder_open),
-                label: Text(hasFile ? 'Change File' : 'Pick File'),
+                label: Text(hasFile ? AppLocalizations.of(context).changeFile : AppLocalizations.of(context).pickFile),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: hasFile ? Colors.green[600] : Theme.of(context).primaryColor,
                   shape: RoundedRectangleBorder(
@@ -95,46 +96,46 @@ class FilePickerWidget extends StatelessWidget {
   }
 
   Future<Map<String, String>?> _showHeaderDialog(BuildContext context) async {
-    final nameController = TextEditingController(text: 'name');
-    final phoneController = TextEditingController(text: 'phone');
+    final nameController = TextEditingController(text: AppLocalizations.of(context).defaultNameHeader);
+    final phoneController = TextEditingController(text: AppLocalizations.of(context).defaultPhoneHeader);
 
     return showDialog<Map<String, String>>(
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Configure Column Headers'),
+          title: Text(AppLocalizations.of(context).configureColumnHeaders),
           content: SingleChildScrollView(
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  'Specify the column header names in your file:',
-                  style: TextStyle(fontSize: 14, color: Colors.grey),
+                Text(
+                  AppLocalizations.of(context).specifyColumnHeaders,
+                  style: const TextStyle(fontSize: 14, color: Colors.grey),
                 ),
                 const SizedBox(height: 16),
                 TextField(
                   controller: nameController,
-                  decoration: const InputDecoration(
-                    labelText: 'Name Column Header',
-                    hintText: 'e.g., name, full_name, customer',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.person),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).nameColumnHeader,
+                    hintText: AppLocalizations.of(context).nameColumnHint,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.person),
                   ),
                 ),
                 const SizedBox(height: 16),
                 TextField(
                   controller: phoneController,
-                  decoration: const InputDecoration(
-                    labelText: 'Phone Column Header',
-                    hintText: 'e.g., phone, number, mobile',
-                    border: OutlineInputBorder(),
-                    prefixIcon: Icon(Icons.phone),
+                  decoration: InputDecoration(
+                    labelText: AppLocalizations.of(context).phoneColumnHeader,
+                    hintText: AppLocalizations.of(context).phoneColumnHint,
+                    border: const OutlineInputBorder(),
+                    prefixIcon: const Icon(Icons.phone),
                   ),
                 ),
                 const SizedBox(height: 12),
-                const Text(
-                  'Note: The search is case-insensitive and matches partial text.',
-                  style: TextStyle(fontSize: 12, color: Colors.grey),
+                Text(
+                  AppLocalizations.of(context).columnSearchNote,
+                  style: const TextStyle(fontSize: 12, color: Colors.grey),
                 ),
               ],
             ),
@@ -142,7 +143,7 @@ class FilePickerWidget extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: const Text('Cancel'),
+              child: Text(AppLocalizations.of(context).cancel),
             ),
             ElevatedButton(
               onPressed: () {
@@ -156,7 +157,7 @@ class FilePickerWidget extends StatelessWidget {
                   });
                 }
               },
-              child: const Text('Continue'),
+              child: Text(AppLocalizations.of(context).continueButton),
             ),
           ],
         );

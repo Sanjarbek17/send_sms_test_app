@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
 import '../services/permission_service.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class PermissionStatusWidget extends StatefulWidget {
   const PermissionStatusWidget({Key? key}) : super(key: key);
@@ -39,18 +40,18 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return const Card(
+      return Card(
         child: Padding(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              SizedBox(
+              const SizedBox(
                 width: 16,
                 height: 16,
                 child: CircularProgressIndicator(strokeWidth: 2),
               ),
-              SizedBox(width: 12),
-              Text('Checking permissions...'),
+              const SizedBox(width: 12),
+              Text(AppLocalizations.of(context).checkingPermissions),
             ],
           ),
         ),
@@ -73,7 +74,7 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
                 ),
                 const SizedBox(width: 8),
                 Text(
-                  'Permission Status',
+                  AppLocalizations.of(context).permissionStatus,
                   style: const TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
@@ -91,14 +92,14 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
                     child: ElevatedButton.icon(
                       onPressed: _requestPermissions,
                       icon: const Icon(Icons.security),
-                      label: const Text('Request Permissions'),
+                      label: Text(AppLocalizations.of(context).requestPermissions),
                     ),
                   ),
                   const SizedBox(width: 8),
                   IconButton(
                     onPressed: () => PermissionService.showPermissionExplanationDialog(context),
                     icon: const Icon(Icons.info_outline),
-                    tooltip: 'Why these permissions?',
+                    tooltip: AppLocalizations.of(context).whyThesePermissions,
                   ),
                 ],
               ),
@@ -118,27 +119,27 @@ class _PermissionStatusWidgetState extends State<PermissionStatusWidget> {
       case PermissionStatus.granted:
         icon = Icons.check_circle;
         color = Colors.green;
-        statusText = 'Granted';
+        statusText = AppLocalizations.of(context).granted;
         break;
       case PermissionStatus.denied:
         icon = Icons.cancel;
         color = Colors.red;
-        statusText = 'Denied';
+        statusText = AppLocalizations.of(context).denied;
         break;
       case PermissionStatus.permanentlyDenied:
         icon = Icons.block;
         color = Colors.red;
-        statusText = 'Permanently Denied';
+        statusText = AppLocalizations.of(context).permanentlyDenied;
         break;
       case PermissionStatus.restricted:
         icon = Icons.warning;
         color = Colors.orange;
-        statusText = 'Restricted';
+        statusText = AppLocalizations.of(context).restricted;
         break;
       default:
         icon = Icons.help;
         color = Colors.grey;
-        statusText = 'Unknown';
+        statusText = AppLocalizations.of(context).unknown;
     }
 
     return Padding(

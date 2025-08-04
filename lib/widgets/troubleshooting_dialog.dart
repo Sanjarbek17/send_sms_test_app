@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class TroubleshootingDialog extends StatelessWidget {
   const TroubleshootingDialog({Key? key}) : super(key: key);
@@ -13,54 +14,54 @@ class TroubleshootingDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: const Text('SMS Troubleshooting'),
+      title: Text(AppLocalizations.of(context).smsTroubleshooting),
       content: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'If you\'re having trouble sending SMS:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              AppLocalizations.of(context).troubleshootingIntro,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 12),
             _buildTroubleshootingItem(
-              '1. SIM Card',
-              'Make sure your device has an active SIM card inserted and it\'s properly recognized.',
+              AppLocalizations.of(context).troubleshootingSimCard,
+              AppLocalizations.of(context).troubleshootingSimCardDesc,
             ),
             _buildTroubleshootingItem(
-              '2. Permissions',
-              'Grant SMS permissions to this app in your device settings.',
+              AppLocalizations.of(context).troubleshootingPermissions,
+              AppLocalizations.of(context).troubleshootingPermissionsDesc,
             ),
             _buildTroubleshootingItem(
-              '3. Network',
-              'Ensure you have cellular network coverage.',
+              AppLocalizations.of(context).troubleshootingNetwork,
+              AppLocalizations.of(context).troubleshootingNetworkDesc,
             ),
             _buildTroubleshootingItem(
-              '4. Phone Number',
-              'Verify the phone number format is correct (include country code if needed).',
+              AppLocalizations.of(context).troubleshootingPhoneNumber,
+              AppLocalizations.of(context).troubleshootingPhoneNumberDesc,
             ),
             _buildTroubleshootingItem(
-              '5. Device Support',
-              'Some emulators or devices may not support SMS functionality.',
+              AppLocalizations.of(context).troubleshootingDeviceSupport,
+              AppLocalizations.of(context).troubleshootingDeviceSupportDesc,
             ),
             const SizedBox(height: 12),
-            const Text(
-              'Common Error Codes:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+            Text(
+              AppLocalizations.of(context).commonErrorCodes,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
             const SizedBox(height: 8),
-            _buildErrorCode('NO_SIM', 'No active SIM card detected'),
-            _buildErrorCode('PERMISSION_DENIED', 'SMS permission not granted'),
-            _buildErrorCode('NETWORK_ERROR', 'Network connectivity issue'),
-            _buildErrorCode('INVALID_NUMBER', 'Phone number format error'),
+            _buildErrorCode(AppLocalizations.of(context).errorNoSim, AppLocalizations.of(context).errorNoSimDesc),
+            _buildErrorCode(AppLocalizations.of(context).errorPermissionDenied, AppLocalizations.of(context).errorPermissionDeniedDesc),
+            _buildErrorCode(AppLocalizations.of(context).errorNetworkError, AppLocalizations.of(context).errorNetworkErrorDesc),
+            _buildErrorCode(AppLocalizations.of(context).errorInvalidNumber, AppLocalizations.of(context).errorInvalidNumberDesc),
           ],
         ),
       ),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
-          child: const Text('Close'),
+          child: Text(AppLocalizations.of(context).close),
         ),
       ],
     );

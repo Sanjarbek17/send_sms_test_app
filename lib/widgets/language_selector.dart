@@ -48,9 +48,15 @@ class LanguageSelector extends StatelessWidget {
                       vertical: 12,
                     ),
                     decoration: BoxDecoration(
-                      color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Colors.grey[100],
+                      color: isSelected
+                          ? Theme.of(context)
+                              .primaryColor
+                              .withValues(alpha: 0.1)
+                          : Colors.grey[100],
                       border: Border.all(
-                        color: isSelected ? Theme.of(context).primaryColor : Colors.grey[300]!,
+                        color: isSelected
+                            ? Theme.of(context).primaryColor
+                            : Colors.grey[300]!,
                         width: isSelected ? 2 : 1,
                       ),
                       borderRadius: BorderRadius.circular(8),
@@ -66,8 +72,12 @@ class LanguageSelector extends StatelessWidget {
                         Text(
                           lang.name,
                           style: TextStyle(
-                            fontWeight: isSelected ? FontWeight.bold : FontWeight.normal,
-                            color: isSelected ? Theme.of(context).primaryColor : Colors.black87,
+                            fontWeight: isSelected
+                                ? FontWeight.bold
+                                : FontWeight.normal,
+                            color: isSelected
+                                ? Theme.of(context).primaryColor
+                                : Colors.black87,
                           ),
                         ),
                         if (isSelected) ...[

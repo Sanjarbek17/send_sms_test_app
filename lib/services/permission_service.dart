@@ -1,5 +1,6 @@
 import 'package:permission_handler/permission_handler.dart';
 import 'package:flutter/material.dart';
+import '../generated/l10n/app_localizations.dart';
 
 class PermissionService {
   /// Check if all required SMS permissions are granted
@@ -42,38 +43,38 @@ class PermissionService {
     await showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Permissions Required'),
-        content: const Column(
+        title: Text(AppLocalizations.of(context).permissionsRequired),
+        content: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'This app requires the following permissions to function properly:',
-              style: TextStyle(fontWeight: FontWeight.bold),
+              AppLocalizations.of(context).permissionExplanation,
+              style: const TextStyle(fontWeight: FontWeight.bold),
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             _PermissionItem(
               icon: Icons.sms,
-              title: 'SMS Permission',
-              description: 'Required to send text messages',
+              title: AppLocalizations.of(context).smsPermission,
+              description: AppLocalizations.of(context).smsPermissionDesc,
             ),
-            SizedBox(height: 8),
+            const SizedBox(height: 8),
             _PermissionItem(
               icon: Icons.sim_card,
-              title: 'Phone State Permission',
-              description: 'Required to detect SIM cards and support dual SIM functionality',
+              title: AppLocalizations.of(context).phoneStatePermission,
+              description: AppLocalizations.of(context).phoneStatePermissionDesc,
             ),
-            SizedBox(height: 12),
+            const SizedBox(height: 12),
             Text(
-              'Note: These permissions are only used for SMS functionality and your privacy is protected.',
-              style: TextStyle(fontSize: 12, color: Colors.grey),
+              AppLocalizations.of(context).privacyNote,
+              style: const TextStyle(fontSize: 12, color: Colors.grey),
             ),
           ],
         ),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('OK'),
+            child: Text(AppLocalizations.of(context).ok),
           ),
         ],
       ),

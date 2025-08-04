@@ -341,4 +341,149 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get noFileSelected => 'Файл не выбран';
+
+  @override
+  String get fileSelected => 'Файл Выбран';
+
+  @override
+  String get chooseCSVExcelFile => 'Выберите CSV или Excel файл с контактами';
+
+  @override
+  String get fileSelectedSuccessfully => 'Файл успешно выбран';
+
+  @override
+  String get changeFile => 'Изменить Файл';
+
+  @override
+  String get pickFile => 'Выбрать Файл';
+
+  @override
+  String get configureColumnHeaders => 'Настроить Заголовки Столбцов';
+
+  @override
+  String get specifyColumnHeaders =>
+      'Укажите названия заголовков столбцов в вашем файле:';
+
+  @override
+  String get nameColumnHeader => 'Заголовок Столбца Имени';
+
+  @override
+  String get nameColumnHint => 'например, имя, полное_имя, клиент';
+
+  @override
+  String get phoneColumnHeader => 'Заголовок Столбца Телефона';
+
+  @override
+  String get phoneColumnHint => 'например, телефон, номер, мобильный';
+
+  @override
+  String get columnSearchNote =>
+      'Примечание: Поиск не зависит от регистра и ищет частичные совпадения.';
+
+  @override
+  String get cancel => 'Отмена';
+
+  @override
+  String get continueButton => 'Продолжить';
+
+  @override
+  String get troubleshootingSimCard => '1. SIM Карта';
+
+  @override
+  String get troubleshootingSimCardDesc =>
+      'Убедитесь, что в вашем устройстве установлена активная SIM карта и она правильно распознается.';
+
+  @override
+  String get troubleshootingPermissions => '2. Разрешения';
+
+  @override
+  String get troubleshootingPermissionsDesc =>
+      'Предоставьте SMS разрешения этому приложению в настройках устройства.';
+
+  @override
+  String get troubleshootingNetwork => '3. Сеть';
+
+  @override
+  String get troubleshootingNetworkDesc =>
+      'Убедитесь, что у вас есть покрытие сотовой сети.';
+
+  @override
+  String get troubleshootingPhoneNumber => '4. Номер Телефона';
+
+  @override
+  String get troubleshootingPhoneNumberDesc =>
+      'Проверьте правильность формата номера телефона (включите код страны при необходимости).';
+
+  @override
+  String get troubleshootingDeviceSupport => '5. Поддержка Устройства';
+
+  @override
+  String get troubleshootingDeviceSupportDesc =>
+      'Некоторые эмуляторы или устройства могут не поддерживать SMS функциональность.';
+
+  @override
+  String get errorNoSim => 'NO_SIM';
+
+  @override
+  String get errorNoSimDesc => 'Активная SIM карта не обнаружена';
+
+  @override
+  String get errorPermissionDenied => 'PERMISSION_DENIED';
+
+  @override
+  String get errorPermissionDeniedDesc => 'SMS разрешение не предоставлено';
+
+  @override
+  String get errorNetworkError => 'NETWORK_ERROR';
+
+  @override
+  String get errorNetworkErrorDesc => 'Проблема с сетевым подключением';
+
+  @override
+  String get errorInvalidNumber => 'INVALID_NUMBER';
+
+  @override
+  String get errorInvalidNumberDesc => 'Ошибка формата номера телефона';
+
+  @override
+  String get permissionsRequired => 'Требуются Разрешения';
+
+  @override
+  String get permissionExplanation =>
+      'Это приложение требует следующие разрешения для правильной работы:';
+
+  @override
+  String get smsPermission => 'SMS Разрешение';
+
+  @override
+  String get smsPermissionDesc => 'Требуется для отправки текстовых сообщений';
+
+  @override
+  String get phoneStatePermission => 'Разрешение Состояния Телефона';
+
+  @override
+  String get phoneStatePermissionDesc =>
+      'Требуется для обнаружения SIM карт и поддержки функции двух SIM';
+
+  @override
+  String get privacyNote =>
+      'Примечание: Эти разрешения используются только для SMS функциональности и ваша конфиденциальность защищена.';
+
+  @override
+  String get checkingPermissions => 'Проверка разрешений...';
+
+  @override
+  String get permissionStatus => 'Статус Разрешений';
+
+  @override
+  String get whyThesePermissions => 'Зачем эти разрешения?';
+
+  @override
+  String get smsApp => 'SMS Отправитель';
+
+  @override
+  String get defaultNameHeader => 'имя';
+
+  @override
+  String get defaultPhoneHeader => 'телефон';
 }

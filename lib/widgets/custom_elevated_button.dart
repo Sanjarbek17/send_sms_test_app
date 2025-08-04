@@ -30,7 +30,8 @@ class CustomElevatedButton extends StatelessWidget {
         boxShadow: onPressed != null
             ? [
                 BoxShadow(
-                  color: (backgroundColor ?? Theme.of(context).primaryColor).withValues(alpha: 0.3),
+                  color: (backgroundColor ?? Theme.of(context).primaryColor)
+                      .withValues(alpha: 0.3),
                   spreadRadius: 1,
                   blurRadius: 8,
                   offset: const Offset(0, 3),
@@ -46,7 +47,8 @@ class CustomElevatedButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(12),
           ),
-          padding: padding ?? const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          padding: padding ??
+              const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
           elevation: 0,
         ),
         onPressed: onPressed,

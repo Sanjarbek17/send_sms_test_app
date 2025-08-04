@@ -334,4 +334,149 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get noFileSelected => 'No file selected';
+
+  @override
+  String get fileSelected => 'File Selected';
+
+  @override
+  String get chooseCSVExcelFile => 'Choose a CSV or Excel file with contacts';
+
+  @override
+  String get fileSelectedSuccessfully => 'File selected successfully';
+
+  @override
+  String get changeFile => 'Change File';
+
+  @override
+  String get pickFile => 'Pick File';
+
+  @override
+  String get configureColumnHeaders => 'Configure Column Headers';
+
+  @override
+  String get specifyColumnHeaders =>
+      'Specify the column header names in your file:';
+
+  @override
+  String get nameColumnHeader => 'Name Column Header';
+
+  @override
+  String get nameColumnHint => 'e.g., name, full_name, customer';
+
+  @override
+  String get phoneColumnHeader => 'Phone Column Header';
+
+  @override
+  String get phoneColumnHint => 'e.g., phone, number, mobile';
+
+  @override
+  String get columnSearchNote =>
+      'Note: The search is case-insensitive and matches partial text.';
+
+  @override
+  String get cancel => 'Cancel';
+
+  @override
+  String get continueButton => 'Continue';
+
+  @override
+  String get troubleshootingSimCard => '1. SIM Card';
+
+  @override
+  String get troubleshootingSimCardDesc =>
+      'Make sure your device has an active SIM card inserted and it\'s properly recognized.';
+
+  @override
+  String get troubleshootingPermissions => '2. Permissions';
+
+  @override
+  String get troubleshootingPermissionsDesc =>
+      'Grant SMS permissions to this app in your device settings.';
+
+  @override
+  String get troubleshootingNetwork => '3. Network';
+
+  @override
+  String get troubleshootingNetworkDesc =>
+      'Ensure you have cellular network coverage.';
+
+  @override
+  String get troubleshootingPhoneNumber => '4. Phone Number';
+
+  @override
+  String get troubleshootingPhoneNumberDesc =>
+      'Verify the phone number format is correct (include country code if needed).';
+
+  @override
+  String get troubleshootingDeviceSupport => '5. Device Support';
+
+  @override
+  String get troubleshootingDeviceSupportDesc =>
+      'Some emulators or devices may not support SMS functionality.';
+
+  @override
+  String get errorNoSim => 'NO_SIM';
+
+  @override
+  String get errorNoSimDesc => 'No active SIM card detected';
+
+  @override
+  String get errorPermissionDenied => 'PERMISSION_DENIED';
+
+  @override
+  String get errorPermissionDeniedDesc => 'SMS permission not granted';
+
+  @override
+  String get errorNetworkError => 'NETWORK_ERROR';
+
+  @override
+  String get errorNetworkErrorDesc => 'Network connectivity issue';
+
+  @override
+  String get errorInvalidNumber => 'INVALID_NUMBER';
+
+  @override
+  String get errorInvalidNumberDesc => 'Phone number format error';
+
+  @override
+  String get permissionsRequired => 'Permissions Required';
+
+  @override
+  String get permissionExplanation =>
+      'This app requires the following permissions to function properly:';
+
+  @override
+  String get smsPermission => 'SMS Permission';
+
+  @override
+  String get smsPermissionDesc => 'Required to send text messages';
+
+  @override
+  String get phoneStatePermission => 'Phone State Permission';
+
+  @override
+  String get phoneStatePermissionDesc =>
+      'Required to detect SIM cards and support dual SIM functionality';
+
+  @override
+  String get privacyNote =>
+      'Note: These permissions are only used for SMS functionality and your privacy is protected.';
+
+  @override
+  String get checkingPermissions => 'Checking permissions...';
+
+  @override
+  String get permissionStatus => 'Permission Status';
+
+  @override
+  String get whyThesePermissions => 'Why these permissions?';
+
+  @override
+  String get smsApp => 'SMS Sender App';
+
+  @override
+  String get defaultNameHeader => 'name';
+
+  @override
+  String get defaultPhoneHeader => 'phone';
 }

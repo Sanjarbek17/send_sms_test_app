@@ -296,15 +296,20 @@ class _MainScreenState extends State<MainScreen> with TickerProviderStateMixin {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    isSmsAvailable ? AppLocalizations.of(context).smsServiceReady : AppLocalizations.of(context).smsServiceUnavailable,
+                    isSmsAvailable
+                        ? AppLocalizations.of(context).smsServiceReady
+                        : AppLocalizations.of(context).smsServiceUnavailable,
                     style: TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.bold,
-                      color: isSmsAvailable ? Colors.green[700] : Colors.red[700],
+                      color:
+                          isSmsAvailable ? Colors.green[700] : Colors.red[700],
                     ),
                   ),
                   Text(
-                    isSmsAvailable ? AppLocalizations.of(context).deviceReady : AppLocalizations.of(context).checkSimCard,
+                    isSmsAvailable
+                        ? AppLocalizations.of(context).deviceReady
+                        : AppLocalizations.of(context).checkSimCard,
                     style: TextStyle(
                       color: Colors.grey[600],
                       fontSize: 14,

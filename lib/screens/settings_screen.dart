@@ -163,7 +163,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
                 child: ElevatedButton.icon(
                   onPressed: _checkSmsAvailability,
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Retry Check'),
+                  label: Text(AppLocalizations.of(context).retryCheck),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.orange,
                   ),
@@ -267,7 +267,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
               child: OutlinedButton.icon(
                 onPressed: () => TroubleshootingDialog.show(context),
                 icon: const Icon(Icons.help_outline),
-                label: const Text('Troubleshooting Guide'),
+                label: Text(AppLocalizations.of(context).troubleshootingGuide),
               ),
             ),
           ],

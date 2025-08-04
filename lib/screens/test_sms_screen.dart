@@ -232,7 +232,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
                       });
                     },
                     icon: const Icon(Icons.clear_all),
-                    label: const Text('Clear All'),
+                    label: Text(AppLocalizations.of(context).clearAll),
                   ),
                 ),
               ],
@@ -266,7 +266,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
             const SizedBox(height: 16),
             PhoneInputWidget(
               phoneController: phoneController,
-              label: "Test Phone Number",
+              label: AppLocalizations.of(context).testPhoneNumber,
             ),
             const SizedBox(height: 8),
             Text(
@@ -309,7 +309,7 @@ class _TestSmsScreenState extends State<TestSmsScreen> {
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
                 labelText: "Enter test message",
-                hintText: "Hello! This is a test message from SMS Sender Pro.",
+                hintText: AppLocalizations.of(context).testMessageHint,
                 prefixIcon: const Icon(Icons.edit),
                 suffixText: '${messageController.text.length}/160',
               ),
