@@ -84,11 +84,12 @@ class SmsService {
 
       print('Using SIM slot: $selectedSimSlot');
 
-      await SmsSender.sendSms(
+      String status = await SmsSender.sendSms(
         phoneNumber: cleanedNumber,
         message: message.trim(),
         simSlot: selectedSimSlot,
       );
+      print('SMS sent successfully: $status');
       await Future.delayed(const Duration(seconds: 1));
     } on PlatformException catch (e) {
       switch (e.code) {
