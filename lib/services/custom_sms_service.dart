@@ -23,14 +23,23 @@ class CustomSmsService {
       // Start listening for SMS status events from native side
       _eventSubscription = _eventChannel.receiveBroadcastStream().listen(
         (dynamic event) {
+          print('🔍 Flutter: Raw event received from native: $event');
           if (event is Map) {
-            final statusUpdate = SmsStatusUpdate.fromMap(Map<String, dynamic>.from(event));
-            _statusController?.add(statusUpdate);
-            _handleStatusUpdate(statusUpdate);
+            try {
+              final statusUpdate = SmsStatusUpdate.fromMap(Map<String, dynamic>.from(event));
+              print('🔍 Flutter: Parsed status update: ${statusUpdate.toString()}');
+              _statusController?.add(statusUpdate);
+              _handleStatusUpdate(statusUpdate);
+            } catch (e) {
+              print('🔍 Flutter: Error parsing status update: $e');
+              print('🔍 Flutter: Raw event that failed to parse: $event');
+            }
+          } else {
+            print('🔍 Flutter: Received non-Map event: $event (${event.runtimeType})');
           }
         },
         onError: (error) {
-          print('Custom SMS Event Channel Error: $error');
+          print('🔍 Flutter: Custom SMS Event Channel Error: $error');
         },
       );
 
@@ -75,10 +84,14 @@ class CustomSmsService {
     required String number,
     required String message,
     int? simSlot,
-    Duration timeout = const Duration(seconds: 30),
   }) async {
+    print('🔍 Flutter: sendSmsWithTracking called for $number');
+    print('🔍 Flutter: Service initialized: $_isInitialized');
+    
     if (!_isInitialized) {
+      print('🔍 Flutter: Service not initialized, initializing now...');
       await initialize();
+      print('🔍 Flutter: Service initialization completed: $_isInitialized');
     }
 
     try {
@@ -158,13 +171,6 @@ class CustomSmsService {
       // Create a completer to wait for the final status
       final completer = Completer<SmsResult>();
 
-      // Set up timeout
-      Timer timeoutTimer = Timer(timeout, () {
-        if (!completer.isCompleted) {
-          completer.complete(SmsResult.timeout('SMS sending timeout after ${timeout.inSeconds} seconds'));
-        }
-      });
-
       try {
         // Send SMS using our custom method channel
         final result = await _methodChannel.invokeMethod('sendSms', {
@@ -181,26 +187,29 @@ class CustomSmsService {
           print('SMS send initiated: $resultMessage (ID: $sendId)');
 
           if (sendId != null) {
+            print('🔍 Flutter: Storing completer for sendId: $sendId');
+            print('🔍 Flutter: Pending messages before storing: ${_pendingMessages.keys.toList()}');
+            
             // Store the completer for this send ID
             _pendingMessages[sendId] = completer;
+            
+            print('🔍 Flutter: Pending messages after storing: ${_pendingMessages.keys.toList()}');
+            print('🔍 Flutter: Waiting for status update for sendId: $sendId');
 
             // Wait for the status update from the native side
             final smsResult = await completer.future;
 
-            // Cancel timeout timer
-            timeoutTimer.cancel();
+            print('🔍 Flutter: Completer completed for sendId: $sendId with result: ${smsResult.success ? "SUCCESS" : "FAILURE"}');
+            print('🔍 Flutter: Result message: ${smsResult.message}');
 
             return smsResult;
           } else {
-            timeoutTimer.cancel();
             return SmsResult.error('Failed to get send ID from native method');
           }
         } else {
-          timeoutTimer.cancel();
           return SmsResult.error('Invalid response from native method');
         }
       } catch (e) {
-        timeoutTimer.cancel();
         return SmsResult.error('Failed to send SMS: $e');
       }
     } on PlatformException catch (e) {
@@ -221,40 +230,63 @@ class CustomSmsService {
 
   /// Handle status updates from the native side
   static void _handleStatusUpdate(SmsStatusUpdate statusUpdate) {
+    print('🔍 Flutter: Received status update - SendId: ${statusUpdate.sendId}, Status: ${statusUpdate.status.statusName}, Phone: ${statusUpdate.phoneNumber}');
+    print('🔍 Flutter: Current pending messages count: ${_pendingMessages.length}');
+    print('🔍 Flutter: Pending sendIds: ${_pendingMessages.keys.toList()}');
+    
     final completer = _pendingMessages[statusUpdate.sendId];
-    if (completer != null && !completer.isCompleted) {
-      switch (statusUpdate.status) {
-        case SmsStatus.sent:
-          _pendingMessages.remove(statusUpdate.sendId);
-          completer.complete(SmsResult.sent(
-            'SMS sent successfully to ${statusUpdate.phoneNumber}',
-            phoneNumber: statusUpdate.phoneNumber,
-          ));
-          break;
-        case SmsStatus.delivered:
-          _pendingMessages.remove(statusUpdate.sendId);
-          completer.complete(SmsResult.delivered(
-            'SMS delivered successfully to ${statusUpdate.phoneNumber}',
-            phoneNumber: statusUpdate.phoneNumber,
-          ));
-          break;
-        case SmsStatus.failed:
-          _pendingMessages.remove(statusUpdate.sendId);
-          completer.complete(SmsResult.error(
-            statusUpdate.errorMessage ?? 'SMS failed to send',
-            phoneNumber: statusUpdate.phoneNumber,
-          ));
-          break;
-        case SmsStatus.queued:
-        case SmsStatus.sending:
-          // These are intermediate states, don't complete yet
-          print('SMS ${statusUpdate.status.statusName}: ${statusUpdate.phoneNumber}');
-          break;
-        case SmsStatus.unknown:
-          // Don't complete on unknown status
-          print('Unknown SMS status for: ${statusUpdate.phoneNumber}');
-          break;
+    print('🔍 Flutter: Completer found: ${completer != null}');
+    
+    if (completer != null) {
+      print('🔍 Flutter: Completer is completed: ${completer.isCompleted}');
+      
+      if (!completer.isCompleted) {
+        print('🔍 Flutter: Processing status: ${statusUpdate.status.statusName}');
+        
+        switch (statusUpdate.status) {
+          case SmsStatus.sent:
+            print('🔍 Flutter: Completing with SENT status for sendId: ${statusUpdate.sendId}');
+            _pendingMessages.remove(statusUpdate.sendId);
+            completer.complete(SmsResult.sent(
+              'SMS sent successfully to ${statusUpdate.phoneNumber}',
+              phoneNumber: statusUpdate.phoneNumber,
+            ));
+            print('🔍 Flutter: Successfully completed completer for sendId: ${statusUpdate.sendId}');
+            break;
+          case SmsStatus.delivered:
+            print('🔍 Flutter: Completing with DELIVERED status for sendId: ${statusUpdate.sendId}');
+            _pendingMessages.remove(statusUpdate.sendId);
+            completer.complete(SmsResult.delivered(
+              'SMS delivered successfully to ${statusUpdate.phoneNumber}',
+              phoneNumber: statusUpdate.phoneNumber,
+            ));
+            print('🔍 Flutter: Successfully completed completer for sendId: ${statusUpdate.sendId}');
+            break;
+          case SmsStatus.failed:
+            print('🔍 Flutter: Completing with FAILED status for sendId: ${statusUpdate.sendId}');
+            _pendingMessages.remove(statusUpdate.sendId);
+            completer.complete(SmsResult.error(
+              statusUpdate.errorMessage ?? 'SMS failed to send',
+              phoneNumber: statusUpdate.phoneNumber,
+            ));
+            print('🔍 Flutter: Successfully completed completer for sendId: ${statusUpdate.sendId}');
+            break;
+          case SmsStatus.queued:
+          case SmsStatus.sending:
+            // These are intermediate states, don't complete yet
+            print('🔍 Flutter: Intermediate status ${statusUpdate.status.statusName} for ${statusUpdate.phoneNumber} - not completing yet');
+            break;
+          case SmsStatus.unknown:
+            // Don't complete on unknown status
+            print('🔍 Flutter: Unknown SMS status for: ${statusUpdate.phoneNumber}');
+            break;
+        }
+      } else {
+        print('🔍 Flutter: Completer already completed for sendId: ${statusUpdate.sendId}');
       }
+    } else {
+      print('🔍 Flutter: No completer found for sendId: ${statusUpdate.sendId}');
+      print('🔍 Flutter: This could be normal if timeout already occurred or delivery status for completed SMS');
     }
   }
 

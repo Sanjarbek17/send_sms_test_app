@@ -147,7 +147,6 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
             message: messageController.text,
             number: contact.phone.trim(),
             simSlot: widget.selectedSimSlot,
-            timeout: const Duration(seconds: 30), // Custom SMS service needs more time for real status
           );
 
           if (smsResult.success) {

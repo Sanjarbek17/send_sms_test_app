@@ -99,9 +99,13 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
             return
         }
         
+        var sendId: String? = null
+        var trackingInfo: SmsTrackingInfo? = null
+        
         try {
-            val sendId = UUID.randomUUID().toString()
-            val trackingInfo = SmsTrackingInfo(
+            sendId = UUID.randomUUID().toString()
+            
+            trackingInfo = SmsTrackingInfo(
                 sendId = sendId,
                 phoneNumber = phoneNumber,
                 message = message,
@@ -110,20 +114,16 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
             
             activeSends[sendId] = trackingInfo
             
-            // Send initial status
-            sendStatusUpdate(sendId, phoneNumber, "queued", null)
-            
             // Get SMS manager for specific SIM
             val smsManager = getSmsManagerForSim(simSlot)
-            
-            // Send status update
-            sendStatusUpdate(sendId, phoneNumber, "sending", null)
             
             // Send single SMS (messages are limited to 160 characters in Flutter UI)
             val sentIntent = createSentPendingIntent(sendId)
             val deliveredIntent = createDeliveredPendingIntent(sendId)
             
             if (sentIntent == null || deliveredIntent == null) {
+                activeSends.remove(sendId)
+                
                 Log.e(TAG, "Failed to create PendingIntents for SMS tracking")
                 result.error("SEND_FAILED", "Failed to create SMS tracking intents", null)
                 return
@@ -148,7 +148,24 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
             
             Log.d(TAG, "SMS queued for sending: $sendId to $phoneNumber")
             
+            // Send initial status updates AFTER returning the sendId to Flutter
+            // This ensures the Flutter completer is stored before status updates arrive
+            // Add small delay to prevent overwhelming the event channel
+            android.os.Handler(android.os.Looper.getMainLooper()).post {
+                sendStatusUpdate(sendId, phoneNumber, "queued", null)
+                
+                // Slight delay before sending "sending" status
+                android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
+                    sendStatusUpdate(sendId, phoneNumber, "sending", null)
+                }, 50) // 50ms delay
+            }
+            
         } catch (e: Exception) {
+            // Clean up tracking if exception occurs
+            sendId?.let { id ->
+                activeSends.remove(id)
+            }
+            
             result.error("SEND_FAILED", "Failed to send SMS: ${e.message}", null)
             Log.e(TAG, "Failed to send SMS", e)
         }

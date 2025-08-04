@@ -1,7 +1,4 @@
-import 'package:shared_preferences/shared_  /// Validate delay value
-  static bool isValidDelay(int seconds) {
-    return seconds >= 0 && seconds <= 30;
-  }erences.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SettingsService {
   static const String _smsDelayKey = 'sms_delay_seconds';
@@ -45,7 +42,7 @@ class SettingsService {
 
   /// Validate delay value
   static bool isValidDelay(int seconds) {
-    return seconds >= 1 && seconds <= 30;
+    return seconds >= 0 && seconds <= 30;
   }
 
   /// Get the selected SIM slot
