@@ -10,6 +10,9 @@ void main() async {
 
   // Initialize the custom SMS service
   await CustomSmsService.initialize();
+  
+  // Initialize the language service to load saved preferences
+  await LanguageService().initialize();
 
   runApp(const MyApp());
 }
