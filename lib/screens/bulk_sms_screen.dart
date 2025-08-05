@@ -50,7 +50,7 @@ class _BulkSmsScreenState extends State<BulkSmsScreen> {
               // Update current status based on the stream
               currentSendingStatus = 'Status: ${statusUpdate.status.statusName}';
             });
-            print('Real-time status: ${statusUpdate.phoneNumber} - ${statusUpdate.status.statusName}');
+            print('Real-time status: ${statusUpdate.status.statusName}');
           }
         },
         onError: (error) {

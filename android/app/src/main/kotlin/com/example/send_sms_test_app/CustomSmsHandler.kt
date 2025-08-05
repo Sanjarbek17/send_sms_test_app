@@ -17,7 +17,6 @@ import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
-import java.util.*
 import kotlin.collections.HashMap
 
 class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHandler {
@@ -25,20 +24,12 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
     private var eventSink: EventChannel.EventSink? = null
     private var sentReceiver: BroadcastReceiver? = null
     private var deliveredReceiver: BroadcastReceiver? = null
-    private val activeSends = mutableMapOf<String, SmsTrackingInfo>()
     
     companion object {
         private const val TAG = "CustomSmsHandler"
         private const val SMS_SENT_ACTION = "com.example.send_sms_test_app.SMS_SENT"
         private const val SMS_DELIVERED_ACTION = "com.example.send_sms_test_app.SMS_DELIVERED"
     }
-    
-    data class SmsTrackingInfo(
-        val sendId: String,
-        val phoneNumber: String,
-        val message: String,
-        val timestamp: Long
-    )
     
     fun setup(context: Context, flutterEngine: FlutterEngine) {
         this.context = context
@@ -99,37 +90,21 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
             return
         }
         
-        var sendId: String? = null
-        var trackingInfo: SmsTrackingInfo? = null
-        
         try {
-            sendId = UUID.randomUUID().toString()
-            
-            trackingInfo = SmsTrackingInfo(
-                sendId = sendId,
-                phoneNumber = phoneNumber,
-                message = message,
-                timestamp = System.currentTimeMillis()
-            )
-            
-            activeSends[sendId] = trackingInfo
-            
             // Get SMS manager for specific SIM
             val smsManager = getSmsManagerForSim(simSlot)
             
             // Send single SMS (messages are limited to 160 characters in Flutter UI)
-            val sentIntent = createSentPendingIntent(sendId)
-            val deliveredIntent = createDeliveredPendingIntent(sendId)
+            val sentIntent = createSentPendingIntent()
+            val deliveredIntent = createDeliveredPendingIntent()
             
             if (sentIntent == null || deliveredIntent == null) {
-                activeSends.remove(sendId)
-                
                 Log.e(TAG, "Failed to create PendingIntents for SMS tracking")
                 result.error("SEND_FAILED", "Failed to create SMS tracking intents", null)
                 return
             }
             
-            Log.d(TAG, "Created PendingIntents for SMS $sendId")
+            Log.d(TAG, "Created PendingIntents for SMS")
             
             smsManager.sendTextMessage(
                 phoneNumber,
@@ -139,33 +114,15 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
                 deliveredIntent
             )
             
-            // Return immediately with send ID - actual status will come via event channel
+            // Return success immediately
             result.success(hashMapOf(
-                "sendId" to sendId,
                 "status" to "queued",
                 "message" to "SMS queued for sending"
             ))
             
-            Log.d(TAG, "SMS queued for sending: $sendId to $phoneNumber")
-            
-            // Send initial status updates AFTER returning the sendId to Flutter
-            // This ensures the Flutter completer is stored before status updates arrive
-            // Add small delay to prevent overwhelming the event channel
-            android.os.Handler(android.os.Looper.getMainLooper()).post {
-                sendStatusUpdate(sendId, phoneNumber, "queued", null)
-                
-                // Slight delay before sending "sending" status
-                android.os.Handler(android.os.Looper.getMainLooper()).postDelayed({
-                    sendStatusUpdate(sendId, phoneNumber, "sending", null)
-                }, 50) // 50ms delay
-            }
+            Log.d(TAG, "SMS queued for sending to $phoneNumber")
             
         } catch (e: Exception) {
-            // Clean up tracking if exception occurs
-            sendId?.let { id ->
-                activeSends.remove(id)
-            }
-            
             result.error("SEND_FAILED", "Failed to send SMS: ${e.message}", null)
             Log.e(TAG, "Failed to send SMS", e)
         }
@@ -236,37 +193,33 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
         // SMS Sent Receiver
         sentReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                val sendId = intent?.getStringExtra("sendId")
-                Log.d(TAG, "SMS Sent broadcast received for sendId: $sendId, resultCode: $resultCode")
+                Log.d(TAG, "SMS Sent broadcast received, resultCode: $resultCode")
                 
-                if (sendId != null) {
-                    val trackingInfo = activeSends[sendId]
-                    if (trackingInfo != null) {
-                        when (resultCode) {
-                            Activity.RESULT_OK -> {
-                                handleSentStatus(sendId, trackingInfo, true)
-                            }
-                            SmsManager.RESULT_ERROR_GENERIC_FAILURE -> {
-                                handleSentStatus(sendId, trackingInfo, false, "Generic failure")
-                            }
-                            SmsManager.RESULT_ERROR_NO_SERVICE -> {
-                                handleSentStatus(sendId, trackingInfo, false, "No service")
-                            }
-                            SmsManager.RESULT_ERROR_NULL_PDU -> {
-                                handleSentStatus(sendId, trackingInfo, false, "Invalid message format")
-                            }
-                            SmsManager.RESULT_ERROR_RADIO_OFF -> {
-                                handleSentStatus(sendId, trackingInfo, false, "Radio is off")
-                            }
-                            else -> {
-                                handleSentStatus(sendId, trackingInfo, false, "Unknown error: $resultCode")
-                            }
-                        }
-                    } else {
-                        Log.w(TAG, "No tracking info found for sendId: $sendId")
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        sendStatusUpdate("sent", null)
+                        Log.d(TAG, "SMS sent successfully")
                     }
-                } else {
-                    Log.w(TAG, "SMS Sent broadcast received without sendId")
+                    SmsManager.RESULT_ERROR_GENERIC_FAILURE -> {
+                        sendStatusUpdate("failed", "Generic failure")
+                        Log.d(TAG, "SMS failed: Generic failure")
+                    }
+                    SmsManager.RESULT_ERROR_NO_SERVICE -> {
+                        sendStatusUpdate("failed", "No service")
+                        Log.d(TAG, "SMS failed: No service")
+                    }
+                    SmsManager.RESULT_ERROR_NULL_PDU -> {
+                        sendStatusUpdate("failed", "Invalid message format")
+                        Log.d(TAG, "SMS failed: Invalid message format")
+                    }
+                    SmsManager.RESULT_ERROR_RADIO_OFF -> {
+                        sendStatusUpdate("failed", "Radio is off")
+                        Log.d(TAG, "SMS failed: Radio is off")
+                    }
+                    else -> {
+                        sendStatusUpdate("failed", "Unknown error: $resultCode")
+                        Log.d(TAG, "SMS failed: Unknown error: $resultCode")
+                    }
                 }
             }
         }
@@ -274,29 +227,21 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
         // SMS Delivered Receiver
         deliveredReceiver = object : BroadcastReceiver() {
             override fun onReceive(context: Context?, intent: Intent?) {
-                val sendId = intent?.getStringExtra("sendId")
-                Log.d(TAG, "SMS Delivered broadcast received for sendId: $sendId, resultCode: $resultCode")
+                Log.d(TAG, "SMS Delivered broadcast received, resultCode: $resultCode")
                 
-                if (sendId != null) {
-                    val trackingInfo = activeSends[sendId]
-                    if (trackingInfo != null) {
-                        when (resultCode) {
-                            Activity.RESULT_OK -> {
-                                handleDeliveredStatus(sendId, trackingInfo, true)
-                            }
-                            Activity.RESULT_CANCELED -> {
-                                handleDeliveredStatus(sendId, trackingInfo, false, "Delivery failed")
-                            }
-                            else -> {
-                                handleDeliveredStatus(sendId, trackingInfo, false, "Unknown delivery error: $resultCode")
-                            }
-                        }
-                    } else {
-                        // This is normal - SMS was already marked as "sent" and removed from tracking
-                        Log.d(TAG, "Delivery status received for already completed SMS: $sendId")
+                when (resultCode) {
+                    Activity.RESULT_OK -> {
+                        sendStatusUpdate("delivered", null)
+                        Log.d(TAG, "SMS delivered successfully")
                     }
-                } else {
-                    Log.w(TAG, "SMS Delivered broadcast received without sendId")
+                    Activity.RESULT_CANCELED -> {
+                        sendStatusUpdate("failed", "Delivery failed")
+                        Log.d(TAG, "SMS delivery failed")
+                    }
+                    else -> {
+                        sendStatusUpdate("failed", "Unknown delivery error: $resultCode")
+                        Log.d(TAG, "SMS delivery failed: Unknown error: $resultCode")
+                    }
                 }
             }
         }
@@ -315,16 +260,13 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
         }
     }
     
-    private fun createSentPendingIntent(sendId: String): PendingIntent? {
+    private fun createSentPendingIntent(): PendingIntent? {
         val context = this.context ?: return null
         
-        val sentIntent = Intent(SMS_SENT_ACTION).apply {
-            putExtra("sendId", sendId)
-        }
+        val sentIntent = Intent(SMS_SENT_ACTION)
         
-        // Use a unique request code to avoid conflicts between concurrent SMS sends
-        // Combine timestamp with hash code to ensure uniqueness
-        val requestCode = (System.currentTimeMillis() and 0xFFFF).toInt() + sendId.hashCode()
+        // Use a simple request code
+        val requestCode = 1001
         
         return PendingIntent.getBroadcast(
             context,
@@ -334,16 +276,13 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
         )
     }
     
-    private fun createDeliveredPendingIntent(sendId: String): PendingIntent? {
+    private fun createDeliveredPendingIntent(): PendingIntent? {
         val context = this.context ?: return null
         
-        val deliveredIntent = Intent(SMS_DELIVERED_ACTION).apply {
-            putExtra("sendId", sendId)
-        }
+        val deliveredIntent = Intent(SMS_DELIVERED_ACTION)
         
-        // Use a unique request code to avoid conflicts between concurrent SMS sends
-        // Add offset and timestamp to ensure uniqueness from sent intent
-        val requestCode = (System.currentTimeMillis() and 0xFFFF).toInt() + sendId.hashCode() + 10000
+        // Use a simple request code
+        val requestCode = 1002
         
         return PendingIntent.getBroadcast(
             context,
@@ -353,43 +292,15 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
         )
     }
     
-    private fun sendStatusUpdate(sendId: String, phoneNumber: String, status: String, errorMessage: String?) {
+    private fun sendStatusUpdate(status: String, errorMessage: String?) {
         val statusData = HashMap<String, Any>().apply {
-            put("sendId", sendId)
-            put("phoneNumber", phoneNumber)
             put("status", status)
             put("timestamp", System.currentTimeMillis())
             errorMessage?.let { put("errorMessage", it) }
         }
         
         eventSink?.success(statusData)
-        Log.d(TAG, "Status update: $status for $phoneNumber (ID: $sendId)")
-    }
-    
-    private fun handleSentStatus(sendId: String, trackingInfo: SmsTrackingInfo, success: Boolean, errorMessage: String? = null) {
-        if (success) {
-            sendStatusUpdate(sendId, trackingInfo.phoneNumber, "sent", null)
-            // Remove from active tracking since SMS was sent successfully
-            // Delivery status tracking is optional and shouldn't block new SMS sends
-            activeSends.remove(sendId)
-            Log.d(TAG, "SMS sent successfully: $sendId")
-        } else {
-            sendStatusUpdate(sendId, trackingInfo.phoneNumber, "failed", errorMessage)
-            activeSends.remove(sendId)
-            Log.d(TAG, "SMS failed to send: $sendId - $errorMessage")
-        }
-    }
-    
-    private fun handleDeliveredStatus(sendId: String, trackingInfo: SmsTrackingInfo, success: Boolean, errorMessage: String? = null) {
-        if (success) {
-            sendStatusUpdate(sendId, trackingInfo.phoneNumber, "delivered", null)
-            activeSends.remove(sendId)
-            Log.d(TAG, "SMS delivered successfully: $sendId")
-        } else {
-            sendStatusUpdate(sendId, trackingInfo.phoneNumber, "failed", errorMessage)
-            activeSends.remove(sendId)
-            Log.d(TAG, "SMS delivery failed: $sendId - $errorMessage")
-        }
+        Log.d(TAG, "Status update: $status")
     }
     
     fun cleanup() {
@@ -403,7 +314,6 @@ class CustomSmsHandler : MethodChannel.MethodCallHandler, EventChannel.StreamHan
             Log.e(TAG, "Failed to unregister SMS receivers: ${e.message}")
         }
         
-        activeSends.clear()
         eventSink = null
         this.context = null
     }
